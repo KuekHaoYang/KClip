@@ -3,6 +3,7 @@ import Foundation
 struct CodeSnippet: Equatable {
   let body: String
   let language: CodeLanguage
+  var lineCount: Int { body.split(separator: "\n", omittingEmptySubsequences: false).count }
 
   static func parse(_ text: String) -> CodeSnippet? {
     let normalized = text.replacingOccurrences(of: "\r\n", with: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
@@ -33,8 +34,9 @@ struct CodeSnippet: Equatable {
     if fallback == .yaml && line.range(of: "^\\s*(-\\s+)?[A-Za-z0-9_-]+:\\s*\\S.*$", options: .regularExpression) != nil { return .code }
     if fallback != .plainText && CodeLanguage.detect(in: line) == fallback { return .code }
     if isCode(line) { return .code }
+    if looksLikeProse(line) { return .text }
     if line.allSatisfy({ "{}[]()<>:,".contains($0) }) { return .neutral }
-    return .text
+    return .neutral
   }
 
   private static func isComment(_ line: String) -> Bool {
@@ -45,9 +47,19 @@ struct CodeSnippet: Equatable {
     let lower = line.lowercased()
     let prefixes = ["func ", "let ", "var ", "struct ", "enum ", "class ", "protocol ", "extension ", "guard ", "return ", "if ", "for ", "while ", "switch ", "case ", "def ", "from ", "import ", "const ", "export ", "interface ", "type ", "select ", "with ", "insert ", "update ", "delete ", "<", "</"]
     if prefixes.contains(where: lower.hasPrefix) { return true }
+    if line.hasPrefix("@") || line.hasPrefix(".") || line.hasPrefix("$") { return true }
+    if lower.range(of: "^(private|fileprivate|internal|public|open|static|final|mutating|nonmutating|override)\\s+", options: .regularExpression) != nil { return true }
     if line.contains("{") || line.contains("}") || line.contains(";") || line.contains("->") || line.contains("=>") { return true }
     if line.range(of: "^\\s*#?\"[^\"]+\"\\s*:\\s*.+$|^\\s*\\w+\\s*=\\s*.+$|^\\s*\\w+\\([^)]*\\)$", options: .regularExpression) != nil { return true }
     return false
+  }
+
+  private static func looksLikeProse(_ line: String) -> Bool {
+    if line.hasPrefix("@") || line.hasPrefix(".") || line.hasPrefix("#") || line.hasPrefix("$") { return false }
+    if ["(", ")", "{", "}", "[", "]", "=", "->", "=>"].contains(where: line.contains) { return false }
+    let words = line.split { $0.isLetter == false }.map { String($0).lowercased() }
+    let proseWords = Set(["the", "and", "for", "from", "into", "with", "this", "that", "there", "translate", "delete", "change", "below", "english", "chinese", "need", "text"])
+    return words.count >= 4 && words.contains(where: proseWords.contains)
   }
 
   private static func fencedBlock(in text: String) -> (body: String, languageHint: String?)? {

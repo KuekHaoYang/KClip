@@ -22,7 +22,6 @@ struct ClipPreviewOverlayView: View {
   private var headerRow: some View {
     HStack(spacing: 10) {
       Text(item.primaryTag.title).font(.system(size: 11, weight: .bold, design: .rounded))
-      if let snippet = item.codeSnippet { detailBadge(snippet.language.title) }
       Spacer(minLength: 0)
       if item.linkURL != nil { actionButton("arrow.up.right.square", openLink) }
       Text(item.capturedAt.relativeClipTimestamp())
@@ -55,16 +54,6 @@ struct ClipPreviewOverlayView: View {
       .buttonStyle(.plain)
   }
 
-  private func detailBadge(_ title: String) -> some View {
-    Text(title)
-      .font(.system(size: 10, weight: .bold, design: .rounded))
-      .foregroundStyle(Color(red: 0.54, green: 0.80, blue: 1.00))
-      .padding(.horizontal, 9)
-      .padding(.vertical, 5)
-      .background(Capsule().fill(Color.white.opacity(0.08)))
-      .overlay(Capsule().stroke(Color.white.opacity(0.10), lineWidth: 1))
-  }
-
   private func openLink() {
     guard let url = item.linkURL else { return }
     NSWorkspace.shared.open(url)
@@ -72,7 +61,13 @@ struct ClipPreviewOverlayView: View {
 
   private var overlaySize: CGSize {
     if item.isImage { return CGSize(width: 560, height: 262) }
-    if item.isCode { return CGSize(width: 560, height: 320) }
+    if let snippet = item.codeSnippet { return codeOverlaySize(snippet) }
     return CGSize(width: 500, height: 246)
+  }
+
+  private func codeOverlaySize(_ snippet: CodeSnippet) -> CGSize {
+    let lineHeight = CGFloat(18)
+    let baseHeight = CGFloat(146)
+    return CGSize(width: 520, height: min(282, max(216, baseHeight + CGFloat(snippet.lineCount) * lineHeight)))
   }
 }

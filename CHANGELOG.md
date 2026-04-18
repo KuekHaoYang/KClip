@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.5 · 2026-04-18
+
+- Fixed SwiftUI snippet detection so copied code with property wrappers, modifier chains, and other non-trivial lines is tagged as `Code` instead of falling back to `General`.
+- Recomputed derived `Code` tags when loading saved clips so plain-text false positives from the previous build no longer stay stuck in the library.
+- Tightened the code preview chrome by removing the duplicated language badge in the header and shrinking the expanded code overlay to snippet-sized bounds.
+
 ## v0.1.4 · 2026-04-18
 
 - Added rendered code preview blocks in tray cards, expanded preview, and edit mode, each with detected language labels.
