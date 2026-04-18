@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.4 · 2026-04-18
+
+- Added rendered code preview blocks in tray cards, expanded preview, and edit mode, each with detected language labels.
+- Tightened automatic `Code` tagging so it only applies to fully code-shaped clips, while allowing comment lines and markdown code fences.
+- Fixed the suppression flow regression where plain links could be reclassified as `Code` after hiding the `Link` tag.
+
 ## v0.1.3 · 2026-04-18
 
 - Corrected the compact image preview geometry so the inner preview radius now follows `inner = outer - padding`.

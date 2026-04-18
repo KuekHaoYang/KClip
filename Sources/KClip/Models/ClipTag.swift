@@ -31,16 +31,10 @@ enum ClipTag: String, Codable, CaseIterable, Identifiable {
     var tags: [ClipTag] = [.general]
     if includesImage { tags.append(.image) }
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-    let lower = trimmed.lowercased()
     if LinkTextClassifier.url(in: trimmed) != nil { tags.append(.link) }
-    if looksLikeCode(lower, text) { tags.append(.code) }
+    if CodeSnippet.parse(text) != nil { tags.append(.code) }
     if trimmed.range(of: "#[0-9a-fA-F]{3,8}", options: .regularExpression) != nil { tags.append(.color) }
     return unique(tags)
-  }
-
-  private static func looksLikeCode(_ lower: String, _ text: String) -> Bool {
-    let tokens = ["func ", "let ", "var ", "import ", "class ", "struct ", "return "]
-    return tokens.contains { lower.contains($0) } || (text.contains("{") && text.contains("}"))
   }
 
   private static func unique(_ tags: [ClipTag]) -> [ClipTag] {
