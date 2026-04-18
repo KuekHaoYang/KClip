@@ -13,11 +13,14 @@ jobs:
   release:
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build release archive
         run: ./script/make_release.sh "${GITHUB_REF_NAME}"
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
+          name: KClip ${{ github.ref_name }}
+          body: Release ${{ github.ref_name }}
+          body_path: docs/releases/${{ github.ref_name }}.md
           files: dist/releases/KClip-${{ github.ref_name }}-macOS.zip
-          generate_release_notes: true
+          make_latest: true
