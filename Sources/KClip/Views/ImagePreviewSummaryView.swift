@@ -33,24 +33,14 @@ struct ImagePreviewSummaryView: View {
   }
 
   private var mediaBlock: some View {
-    ZStack(alignment: .topLeading) {
+    ZStack {
       LinearGradient(colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)], startPoint: .topLeading, endPoint: .bottomTrailing)
       mediaContent
-      badge
     }
     .frame(maxWidth: .infinity)
     .frame(height: compact ? 68 : 152)
     .clipShape(previewShape)
     .overlay(previewShape.stroke(Color.white.opacity(0.08), lineWidth: 1))
-  }
-
-  private var badge: some View {
-    Label("Image", systemImage: "photo")
-      .font(.system(size: compact ? 10 : 11, weight: .bold, design: .rounded))
-      .padding(.horizontal, compact ? 9 : 11)
-      .padding(.vertical, compact ? 6 : 7)
-      .background(Capsule().fill(Color.black.opacity(0.18)))
-      .padding(compact ? 10 : 12)
   }
 
   @ViewBuilder
@@ -62,6 +52,7 @@ struct ImagePreviewSummaryView: View {
       Image(systemName: "photo")
         .font(.system(size: compact ? 22 : 34, weight: .semibold))
         .foregroundStyle(Color.white.opacity(0.55))
+        .transition(imageTransition)
     }
   }
 
@@ -71,24 +62,37 @@ struct ImagePreviewSummaryView: View {
       .interpolation(.high)
       .scaledToFill()
       .frame(maxWidth: .infinity)
-      .frame(height: 36)
+      .frame(height: 48)
       .background(Color.white.opacity(0.04))
       .clipShape(Capsule(style: .continuous))
       .overlay(Capsule(style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
-      .padding(.horizontal, 10)
-      .padding(.top, 22)
-      .padding(.bottom, 10)
+      .padding(10)
+      .transition(imageTransition)
   }
 
   private func expandedImage(_ image: NSImage) -> some View {
     Image(nsImage: image)
       .resizable()
       .scaledToFit()
-      .padding(14)
-      .transition(.scale(scale: 0.98).combined(with: .opacity))
+      .clipShape(expandedImageShape)
+      .overlay(expandedImageShape.stroke(Color.white.opacity(0.08), lineWidth: 1))
+      .padding(previewInset)
+      .transition(imageTransition)
+  }
+
+  private var imageTransition: AnyTransition {
+    .scale(scale: compact ? 0.98 : 0.96).combined(with: .opacity)
+  }
+
+  private var previewCornerRadius: CGFloat { 22 }
+  private var previewInset: CGFloat { compact ? 10 : 14 }
+  private var expandedImageCornerRadius: CGFloat { previewCornerRadius - previewInset }
+
+  private var expandedImageShape: RoundedRectangle {
+    RoundedRectangle(cornerRadius: expandedImageCornerRadius, style: .continuous)
   }
 
   private var previewShape: RoundedRectangle {
-    RoundedRectangle(cornerRadius: 22, style: .continuous)
+    RoundedRectangle(cornerRadius: previewCornerRadius, style: .continuous)
   }
 }

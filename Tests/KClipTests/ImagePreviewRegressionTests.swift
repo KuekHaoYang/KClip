@@ -34,7 +34,33 @@ struct ImagePreviewRegressionTests {
     #expect(summary.contains("compactThumbnail(image)"))
     #expect(summary.contains("clipShape(Capsule(style: .continuous))"))
     #expect(summary.contains("frame(width: 120, height: 46)") == false)
-    #expect(summary.contains("padding(.top, 22)"))
+    #expect(summary.contains(".padding(10)"))
+  }
+
+  @Test
+  func imagePreviewDropsRedundantInnerBadge() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("Label(\"Image\"") == false)
+    #expect(summary.contains("badge") == false)
+  }
+
+  @Test
+  func imagePreviewUsesExplicitMediaTransition() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("private var imageTransition: AnyTransition"))
+    #expect(summary.contains(".transition(imageTransition)"))
+  }
+
+  @Test
+  func expandedImagePreviewUsesInsetCornerRadiusFormula() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("expandedImageCornerRadius"))
+    #expect(summary.contains("previewCornerRadius - previewInset"))
+    #expect(summary.contains(".clipShape(expandedImageShape)"))
+    #expect(summary.contains(".padding(previewInset)"))
   }
 
   private func source(_ path: String) throws -> String {
