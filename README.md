@@ -32,7 +32,7 @@ swift test
 For a packaged archive:
 
 ```bash
-./script/make_release.sh v0.1.5
+./script/make_release.sh v0.1.6
 ```
 
 ## Requirements

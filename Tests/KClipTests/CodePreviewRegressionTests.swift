@@ -28,6 +28,9 @@ struct CodePreviewRegressionTests {
     #expect(summary.contains("languageBadge"))
     #expect(summary.contains("design: .monospaced"))
     #expect(summary.contains("snippet.language.title"))
+    #expect(summary.contains("highlightedText"))
+    #expect(summary.contains("CodeHighlight.runs"))
+    #expect(summary.contains(".animation("))
   }
 
   @Test
