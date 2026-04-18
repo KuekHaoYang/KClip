@@ -30,7 +30,8 @@ struct TrayPanelRootView: View {
       }
     }
     .padding(.horizontal, 18)
-    .padding(.vertical, 12)
+    .padding(.top, TrayPanelLayout.trayTopInset)
+    .padding(.bottom, TrayPanelLayout.trayBottomInset)
     .frame(width: panelWidth, height: panelHeight, alignment: .bottom)
     .background(Color.clear)
     .background(ScrollViewSuppressionView())

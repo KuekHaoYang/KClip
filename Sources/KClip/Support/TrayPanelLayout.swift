@@ -1,7 +1,10 @@
 import CoreGraphics
 
 enum TrayPanelLayout {
-  static let preferredSize = CGSize(width: 900, height: 292)
+  static let trayContentHeight: CGFloat = 268
+  static let trayTopInset: CGFloat = 20
+  static let trayBottomInset: CGFloat = 12
+  static let preferredSize = CGSize(width: 900, height: trayContentHeight + trayTopInset + trayBottomInset)
   static let horizontalMargin: CGFloat = 18
   static let bottomMargin: CGFloat = 24
   static let entryScale: CGFloat = 0.94
@@ -11,7 +14,6 @@ enum TrayPanelLayout {
   static let previewExpandedHeight: CGFloat = preferredSize.height + overlayHeadroom
   static let editorExpandedHeight: CGFloat = preferredSize.height + 332
   static let expandedHeight: CGFloat = editorExpandedHeight
-  static let trayContentHeight: CGFloat = preferredSize.height - 24
   static let overlayBottomInset: CGFloat = trayContentHeight - overlayOverlap
 
   static func frame(in visibleFrame: CGRect, panelSize: CGSize = preferredSize) -> CGRect {

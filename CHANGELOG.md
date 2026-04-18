@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.14 · 2026-04-18
+
+- Added explicit resting top headroom above the docked tray surface so the tray border no longer gets shaved on some open animations.
+- Kept the visible tray content height unchanged, which fixes the intermittent top clipping without shrinking cards or changing the rail layout.
+- Added a layout regression test that locks in both the preserved tray height and the extra resting shell slack.
+
 ## v0.1.13 · 2026-04-18
 
 - Removed the last visible bottom tray slider by forcing the card rail into a fixed card-height viewport instead of leaving spare scroller gutter below the cards.
