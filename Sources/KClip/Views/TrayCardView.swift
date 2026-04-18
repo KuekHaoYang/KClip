@@ -32,6 +32,9 @@ struct TrayCardView: View {
     if item.isImage {
       ImagePreviewSummaryView(item: item, compact: true)
         .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
+    } else if let snippet = item.codeSnippet {
+      CodePreviewSummaryView(snippet: snippet, compact: true)
+        .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
     } else if let preview = linkPreviews.model(for: item) {
       LinkPreviewSummaryView(preview: preview, compact: true)
         .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
