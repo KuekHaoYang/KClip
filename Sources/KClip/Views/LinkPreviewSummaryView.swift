@@ -5,14 +5,15 @@ struct LinkPreviewSummaryView: View {
   let compact: Bool
 
   var body: some View {
-    VStack(alignment: .leading, spacing: compact ? 8 : 12) {
+    VStack(alignment: .leading, spacing: snapshotBottomGap) {
       snapshotBlock
       footerBlock
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
   }
 
-  private var snapshotHeight: CGFloat { compact ? 54 : 152 }
+  private var snapshotBottomGap: CGFloat { compact ? 10 : 16 }
+  private var snapshotHeight: CGFloat { compact ? 52 : 148 }
 
   private var snapshotBlock: some View {
     ZStack(alignment: .topLeading) {
