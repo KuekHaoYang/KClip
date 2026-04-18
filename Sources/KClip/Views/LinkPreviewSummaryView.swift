@@ -5,38 +5,39 @@ struct LinkPreviewSummaryView: View {
   let compact: Bool
 
   var body: some View {
-    mediaBlock
+    VStack(alignment: .leading, spacing: compact ? 8 : 12) {
+      snapshotBlock
+      footerBlock
+    }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
   }
 
-  private var mediaBlock: some View {
+  private var snapshotHeight: CGFloat { compact ? 54 : 152 }
+
+  private var snapshotBlock: some View {
     ZStack(alignment: .topLeading) {
-      backgroundBlock
-      topShade
-      bottomShade
+      snapshotBackground
       chromeBar
       statusBadge
-      footerBlock
     }
-    .clipShape(RoundedRectangle(cornerRadius: compact ? 18 : 20, style: .continuous))
-    .overlay(RoundedRectangle(cornerRadius: compact ? 18 : 20, style: .continuous).stroke(Color.white.opacity(0.08), lineWidth: 1))
+    .frame(maxWidth: .infinity)
+    .frame(height: snapshotHeight)
+    .background(Color.white.opacity(0.04))
+    .clipShape(RoundedRectangle(cornerRadius: compact ? 16 : 20, style: .continuous))
+    .overlay(RoundedRectangle(cornerRadius: compact ? 16 : 20, style: .continuous).stroke(Color.white.opacity(0.08), lineWidth: 1))
   }
 
   private var footerBlock: some View {
-    VStack(alignment: .leading, spacing: compact ? 4 : 6) {
+    VStack(alignment: .leading, spacing: compact ? 3 : 5) {
       Text(preview.title)
         .font(.system(size: compact ? 12 : 16, weight: .bold, design: .rounded))
         .foregroundStyle(.white)
-        .lineLimit(compact ? 2 : 3)
+        .lineLimit(compact ? 1 : 2)
       Text(preview.subtitle)
         .font(.system(size: compact ? 10 : 12, weight: .semibold, design: .rounded))
         .foregroundStyle(Color.white.opacity(0.60))
         .lineLimit(1)
     }
-    .padding(.horizontal, compact ? 12 : 16)
-    .padding(.top, compact ? 18 : 28)
-    .padding(.bottom, compact ? 12 : 16)
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
   }
 
   private var badgeRow: some View {
@@ -57,18 +58,6 @@ struct LinkPreviewSummaryView: View {
     }
   }
 
-  private var topShade: some View {
-    LinearGradient(colors: [.black.opacity(0.10), .clear], startPoint: .top, endPoint: .center)
-  }
-
-  private var bottomShade: some View {
-    LinearGradient(
-      stops: [.init(color: .clear, location: 0.0), .init(color: .black.opacity(compact ? 0.16 : 0.10), location: 0.48), .init(color: .black.opacity(compact ? 0.62 : 0.52), location: 1.0)],
-      startPoint: .top,
-      endPoint: .bottom
-    )
-  }
-
   private var chromeBar: some View {
     VStack(spacing: 0) {
       HStack(spacing: 5) {
@@ -84,13 +73,18 @@ struct LinkPreviewSummaryView: View {
   }
 
   @ViewBuilder
-  private var backgroundBlock: some View {
+  private var snapshotBackground: some View {
     if let image = preview.displayImage {
-      Image(nsImage: image)
-        .resizable()
-        .scaledToFill()
-        .saturation(0.94)
-        .contrast(1.02)
+      ZStack {
+        Image(nsImage: image)
+          .resizable()
+          .scaledToFill()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .saturation(0.94)
+          .contrast(1.02)
+        LinearGradient(colors: [.clear, .black.opacity(compact ? 0.10 : 0.16)], startPoint: .top, endPoint: .bottom)
+      }
+      .clipped()
     } else {
       LinearGradient(colors: [Color.white.opacity(0.12), Color.white.opacity(0.03)], startPoint: .topLeading, endPoint: .bottomTrailing)
       VStack(alignment: .leading, spacing: compact ? 6 : 8) {
