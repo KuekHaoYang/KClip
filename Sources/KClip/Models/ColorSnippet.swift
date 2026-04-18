@@ -25,6 +25,19 @@ struct ColorSnippet: Equatable {
     return updated
   }
 
+  func updatingSample(
+    at index: Int,
+    red: Double,
+    green: Double,
+    blue: Double,
+    alpha: Double
+  ) -> String? {
+    guard samples.indices.contains(index) else { return nil }
+    let code = ColorSample.code(red: red, green: green, blue: blue, alpha: alpha)
+    guard code != samples[index].displayCode else { return nil }
+    return replacingSample(at: index, with: code)
+  }
+
   private static func residualText(in source: String, excluding matches: [NSTextCheckingResult]) -> String {
     let masked = NSMutableString(string: source)
     for match in matches.reversed() { masked.replaceCharacters(in: match.range, with: " ") }

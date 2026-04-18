@@ -20,17 +20,23 @@ struct ColorPreviewRegressionTests {
     #expect(editor.contains("currentColorSnippet"))
     #expect(editor.contains("ColorEditorPaletteView"))
     #expect(palette.contains("ColorPicker"))
+    #expect(palette.contains("updatingSample("))
     #expect(palette.contains(".animation("))
   }
 
   @Test
   func colorSummaryBuildsAnimatedSwatches() throws {
     let summary = try source("Sources/KClip/Views/ColorPreviewSummaryView.swift")
+    let surface = try source("Sources/KClip/Views/ColorPaletteSurfaceView.swift")
 
-    #expect(summary.contains("RoundedRectangle"))
-    #expect(summary.contains("sample.swiftUIColor"))
+    #expect(summary.contains("ColorPaletteSurfaceView"))
+    #expect(summary.contains("paletteSurface"))
     #expect(summary.contains(".transition("))
     #expect(summary.contains("snippet.samples"))
+    #expect(summary.contains("ScrollView(.horizontal") == false)
+    #expect(summary.contains("chip(") == false)
+    #expect(surface.contains("RoundedRectangle"))
+    #expect(surface.contains("sample.swiftUIColor"))
   }
 
   private func source(_ path: String) throws -> String {

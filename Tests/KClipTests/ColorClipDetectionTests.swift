@@ -36,4 +36,30 @@ struct ColorClipDetectionTests {
     #expect(updated.tags == [.general])
     #expect(updated.colorSnippet == nil)
   }
+
+  @Test
+  func updatingSampleSkipsEquivalentColorWrite() throws {
+    let snippet = try #require(ColorSnippet.parse("#0A84FF"))
+
+    let updated = snippet.updatingSample(
+      at: 0,
+      red: 10.0 / 255.0,
+      green: 132.0 / 255.0,
+      blue: 1.0,
+      alpha: 1.0
+    )
+
+    #expect(updated == nil)
+  }
+
+  @Test
+  func updatingSampleRewritesOnlySelectedColor() throws {
+    let snippet = try #require(ColorSnippet.parse("#0A84FF #34C759"))
+
+    let updated = try #require(
+      snippet.updatingSample(at: 1, red: 1.0, green: 159.0 / 255.0, blue: 10.0 / 255.0, alpha: 1.0)
+    )
+
+    #expect(updated == "#0A84FF #FF9F0A")
+  }
 }

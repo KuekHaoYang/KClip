@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.8 · 2026-04-18
+
+- Simplified `Color` previews to a single inner palette surface so the color block no longer stacks an extra chip slab or overruns the bottom edge.
+- Fixed the color editor crash path by preventing picker-sync state changes from rewriting clip text while the editor is opening or switching swatches.
+- Kept animated color preview and editor transitions in place while tightening the palette editor layout.
+
 ## v0.1.7 · 2026-04-18
 
 - Added first-class `Color` clip support for standalone hex codes and palette-style color lists, with live swatch rendering in tray cards and expanded preview.
