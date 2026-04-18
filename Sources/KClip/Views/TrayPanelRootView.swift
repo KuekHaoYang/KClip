@@ -66,6 +66,10 @@ struct TrayPanelRootView: View {
   var visibleItems: [ClipboardItem] { interaction.visibleItems(from: store.items) }
   var displayedTags: [ClipTag] { interaction.displayedTags(from: store.items) }
   var overlayActive: Bool { editingItem != nil || interaction.previewItem != nil }
-  var panelHeight: CGFloat { overlayActive ? TrayPanelLayout.expandedHeight : TrayPanelLayout.preferredSize.height }
+  var panelHeight: CGFloat {
+    if editingItem != nil { return TrayPanelLayout.editorExpandedHeight }
+    if interaction.previewItem != nil { return TrayPanelLayout.previewExpandedHeight }
+    return TrayPanelLayout.preferredSize.height
+  }
   var panelSize: CGSize { CGSize(width: panelWidth, height: panelHeight) }
 }

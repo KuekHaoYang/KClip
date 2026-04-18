@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.12 · 2026-04-18
+
+- Removed the remaining visible tray/editor sliders by suppressing every live `NSScrollView`, not just the first one discovered in the panel tree.
+- Gave edit mode its own taller expanded panel height and clamped runtime resizing to the visible screen, which stops the color editor from being clipped at the top.
+- Hid the `TextEditor` scroll indicator directly so the editor stays visually clean even before AppKit suppression settles.
+
 ## v0.1.11 · 2026-04-18
 
 - Lifted preview and edit overlays into a taller animated panel state so they escape above the tray instead of being trapped inside the tray bounds.

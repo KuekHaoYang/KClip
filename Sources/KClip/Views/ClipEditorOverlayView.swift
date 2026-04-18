@@ -19,6 +19,7 @@ struct ClipEditorOverlayView: View {
       }
       TextEditor(text: $text)
         .scrollContentBackground(.hidden)
+        .scrollIndicators(.hidden)
         .font(.system(size: 13, weight: .medium, design: .rounded))
         .padding(10)
         .frame(height: editorHeight)
