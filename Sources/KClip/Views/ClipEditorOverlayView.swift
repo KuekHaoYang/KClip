@@ -44,7 +44,7 @@ struct ClipEditorOverlayView: View {
   private var editorTitle: String {
     currentColorSnippet != nil ? "Edit Color" : (currentCodeSnippet != nil ? "Edit Code" : (item.isLink ? "Edit Link" : "Edit Clip"))
   }
-  private var editorHeight: CGFloat { currentColorSnippet != nil ? 94 : (currentCodeSnippet == nil ? 126 : 112) }
+  private var editorHeight: CGFloat { currentColorSnippet != nil ? 76 : (currentCodeSnippet == nil ? 126 : 112) }
 
   private func renderedPreview(_ snippet: CodeSnippet) -> some View {
     CodePreviewSummaryView(snippet: snippet, compact: false)

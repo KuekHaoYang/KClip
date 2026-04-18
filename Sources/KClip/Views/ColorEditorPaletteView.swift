@@ -9,8 +9,8 @@ struct ColorEditorPaletteView: View {
   @State private var isSyncingPicker = false
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      ColorPreviewSummaryView(snippet: snippet, compact: false).frame(height: 154)
+    VStack(alignment: .leading, spacing: 8) {
+      ColorPaletteSurfaceView(snippet: snippet, compact: false).frame(height: 104)
       HStack(spacing: 10) {
         Picker("Swatch", selection: $selectedIndex) {
           ForEach(snippet.samples) { sample in Text(sample.displayCode).tag(sample.id) }

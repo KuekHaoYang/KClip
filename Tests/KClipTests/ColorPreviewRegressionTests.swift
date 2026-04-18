@@ -20,6 +20,8 @@ struct ColorPreviewRegressionTests {
     #expect(editor.contains("currentColorSnippet"))
     #expect(editor.contains("ColorEditorPaletteView"))
     #expect(palette.contains("ColorPicker"))
+    #expect(palette.contains("ColorPaletteSurfaceView"))
+    #expect(palette.contains("ColorPreviewSummaryView") == false)
     #expect(palette.contains("updatingSample("))
     #expect(palette.contains(".animation("))
   }
@@ -30,11 +32,9 @@ struct ColorPreviewRegressionTests {
     let surface = try source("Sources/KClip/Views/ColorPaletteSurfaceView.swift")
 
     #expect(summary.contains("ColorPaletteSurfaceView"))
-    #expect(summary.contains("paletteSurface"))
     #expect(summary.contains(".transition("))
-    #expect(summary.contains("snippet.samples"))
-    #expect(summary.contains("ScrollView(.horizontal") == false)
-    #expect(summary.contains("chip(") == false)
+    #expect(summary.contains(".background(") == false)
+    #expect(summary.contains("headerRow") == false)
     #expect(surface.contains("RoundedRectangle"))
     #expect(surface.contains("sample.swiftUIColor"))
   }

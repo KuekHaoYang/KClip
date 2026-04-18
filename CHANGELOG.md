@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.9 · 2026-04-18
+
+- Removed the remaining nested `Color` preview chrome so color cards and overlays now render as outer container -> color surface, not outer container -> inner card -> color.
+- Shrunk the color editor preview and text area so the edit panel stays readable instead of consuming excessive vertical space.
+- Preserved animated color transitions while keeping the picker-sync guard that prevents the color editor from quitting KClip when opened.
+
 ## v0.1.8 · 2026-04-18
 
 - Simplified `Color` previews to a single inner palette surface so the color block no longer stacks an extra chip slab or overruns the bottom edge.
