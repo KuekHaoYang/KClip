@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct TrayEditorStageView: View {
+  let item: ClipboardItem
   @Binding var text: String
   let onCancel: () -> Void
   let onSave: () -> Void
@@ -10,7 +11,7 @@ struct TrayEditorStageView: View {
       Color.black.opacity(0.18)
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .transition(.opacity)
-      ClipEditorOverlayView(text: $text, onCancel: onCancel, onSave: onSave)
+      ClipEditorOverlayView(item: item, text: $text, onCancel: onCancel, onSave: onSave)
         .padding(.top, 10)
         .transition(
           .asymmetric(

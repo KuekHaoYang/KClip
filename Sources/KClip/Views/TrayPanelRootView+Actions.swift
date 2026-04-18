@@ -3,6 +3,7 @@ import SwiftUI
 extension TrayPanelRootView {
   func stageTray() {
     syncSelection()
+    warmLinkPreviews()
     DispatchQueue.main.async {
       withAnimation(.spring(response: 0.24, dampingFraction: 0.86)) { isStaged = true }
     }
@@ -10,11 +11,13 @@ extension TrayPanelRootView {
 
   func syncFromStore() {
     syncSelection()
+    warmLinkPreviews()
     interaction.syncPreview(with: store.items)
   }
 
   func syncSelection() {
     interaction.normalize(itemCount: visibleItems.count)
+    warmLinkPreviews()
   }
 
   func activate(_ index: Int) {
@@ -74,5 +77,9 @@ extension TrayPanelRootView {
       editingItem = nil
     }
     onRefocus()
+  }
+
+  func warmLinkPreviews() {
+    linkPreviews.warm(visibleItems)
   }
 }

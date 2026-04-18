@@ -31,7 +31,7 @@ enum ClipTag: String, Codable, CaseIterable, Identifiable {
     var tags: [ClipTag] = [.general]
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     let lower = trimmed.lowercased()
-    if URL(string: trimmed)?.scheme != nil { tags.append(.link) }
+    if LinkTextClassifier.url(in: trimmed) != nil { tags.append(.link) }
     if looksLikeCode(lower, text) { tags.append(.code) }
     if trimmed.range(of: "#[0-9a-fA-F]{3,8}", options: .regularExpression) != nil { tags.append(.color) }
     return unique(tags)

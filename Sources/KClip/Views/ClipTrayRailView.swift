@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ClipTrayRailView: View {
   let items: [ClipboardItem]
+  let linkPreviews: LinkPreviewStore
   @ObservedObject var interaction: TrayInteractionModel
   let isStaged: Bool
   let selectIndex: (Int) -> Void
@@ -40,7 +41,9 @@ struct ClipTrayRailView: View {
   }
 
   private func card(_ item: ClipboardItem, at index: Int) -> some View {
-    Button { selectIndex(index) } label: { TrayCardView(item: item, isSelected: index == interaction.selection.index) }
+    Button { selectIndex(index) } label: {
+      TrayCardView(item: item, linkPreviews: linkPreviews, isSelected: index == interaction.selection.index)
+    }
       .buttonStyle(.plain)
       .id(item.id)
       .opacity(isStaged ? 1 : 0)

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ClipPreviewOverlayView: View {
   let item: ClipboardItem
+  let linkPreviews: LinkPreviewStore
   let onClose: () -> Void
 
   var body: some View {
@@ -15,6 +16,21 @@ struct ClipPreviewOverlayView: View {
         Button(action: onClose) { Image(systemName: "xmark.circle.fill").font(.system(size: 14, weight: .semibold)) }
           .buttonStyle(.plain)
       }
+      previewBody
+    }
+    .padding(20)
+    .frame(width: 470, height: 210, alignment: .topLeading)
+    .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(.regularMaterial))
+    .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
+    .onAppear { linkPreviews.warm([item]) }
+  }
+
+  @ViewBuilder
+  private var previewBody: some View {
+    if let preview = linkPreviews.model(for: item) {
+      if preview.phase == .ready { LinkPreviewRepresentable(preview: preview) }
+      else { LinkPreviewSummaryView(preview: preview, compact: false) }
+    } else {
       ScrollView {
         Text(item.text)
           .font(.system(size: 14, weight: .semibold, design: .rounded))
@@ -22,9 +38,5 @@ struct ClipPreviewOverlayView: View {
           .frame(maxWidth: .infinity, alignment: .topLeading)
       }
     }
-    .padding(20)
-    .frame(width: 470, height: 210, alignment: .topLeading)
-    .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(.regularMaterial))
-    .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
   }
 }
