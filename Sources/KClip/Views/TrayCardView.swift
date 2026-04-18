@@ -6,7 +6,7 @@ struct TrayCardView: View {
   let isSelected: Bool
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 14) {
+    VStack(alignment: .leading, spacing: 12) {
       headerBlock
       contentBlock
       Spacer(minLength: 0)
@@ -31,13 +31,13 @@ struct TrayCardView: View {
   private var contentBlock: some View {
     if let preview = linkPreviews.model(for: item) {
       LinkPreviewSummaryView(preview: preview, compact: true)
-        .frame(maxWidth: .infinity, minHeight: 82, maxHeight: 82, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
     } else {
       Text(item.text)
         .font(.system(size: 14, weight: .semibold, design: .rounded))
         .lineSpacing(1.5)
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, minHeight: 82, maxHeight: 82, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
         .mask { OverflowFadeView(isEnabled: item.text.count > 110) }
     }
   }

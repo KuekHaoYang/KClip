@@ -27,14 +27,7 @@ final class LinkPreviewStore {
     inFlight.insert(key)
     models[key] = models[key] ?? .loading(url: url)
     loader.loadPreview(for: url) { [weak self] result in
-      let preview = try? result.get()
-      if Thread.isMainThread {
-        MainActor.assumeIsolated { self?.finish(preview, key: key, url: url) }
-      } else {
-        Task { @MainActor [weak self] in
-          self?.finish(preview, key: key, url: url)
-        }
-      }
+      self?.finish(try? result.get(), key: key, url: url)
     }
   }
 

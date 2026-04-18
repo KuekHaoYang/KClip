@@ -34,6 +34,16 @@ struct TrayCardRegressionTests {
     #expect(source.contains("Source unavailable"))
   }
 
+  @Test
+  func linkCardUsesBoundedPreviewWithSeparateTextRail() throws {
+    let source = try String(contentsOf: previewURL, encoding: .utf8)
+
+    #expect(source.contains("mediaHeight"))
+    #expect(source.contains("detailsBlock"))
+    #expect(source.contains(".frame(height: mediaHeight)"))
+    #expect(source.contains(".lineLimit(compact ? 2 : 3)"))
+  }
+
   private var rootURL: URL {
     URL(fileURLWithPath: #filePath)
       .deletingLastPathComponent()
@@ -47,5 +57,9 @@ struct TrayCardRegressionTests {
 
   private var fadeURL: URL {
     rootURL.appending(path: "Sources/KClip/Views/OverflowFadeView.swift")
+  }
+
+  private var previewURL: URL {
+    rootURL.appending(path: "Sources/KClip/Views/LinkPreviewSummaryView.swift")
   }
 }

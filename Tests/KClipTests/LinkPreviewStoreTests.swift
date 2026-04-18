@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 import Testing
 @testable import KClip
 
@@ -11,16 +12,18 @@ struct LinkPreviewStoreTests {
     let store = LinkPreviewStore(loader: loader)
     let item = ClipboardItem(text: "https://example.com/articles/ship-fast")
     let url = try! #require(item.linkURL)
+    let image = NSImage(size: NSSize(width: 12, height: 12))
 
     store.warm([item])
 
     #expect(loader.urls == [url])
     #expect(store.model(for: item)?.phase == .loading)
 
-    loader.succeed(url: url, title: "Ship Fast")
+    loader.succeed(url: url, title: "Ship Fast", image: image)
 
     #expect(store.model(for: item)?.phase == .ready)
     #expect(store.model(for: item)?.title == "Ship Fast")
+    #expect(store.model(for: item)?.image != nil)
     store.warm([item])
     #expect(loader.urls == [url])
   }
@@ -44,8 +47,8 @@ struct LinkPreviewStoreTests {
       completions[url.absoluteString] = completion
     }
 
-    func succeed(url: URL, title: String) {
-      completions[url.absoluteString]?(.success(LinkPreviewSnapshot(url: url, title: title)))
+    func succeed(url: URL, title: String, image: NSImage? = nil) {
+      completions[url.absoluteString]?(.success(LinkPreviewSnapshot(url: url, title: title, image: image)))
     }
   }
 }
