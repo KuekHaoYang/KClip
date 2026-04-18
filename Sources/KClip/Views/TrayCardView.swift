@@ -2,17 +2,13 @@ import SwiftUI
 
 struct TrayCardView: View {
   let item: ClipboardItem
+  let linkPreviews: LinkPreviewStore
   let isSelected: Bool
 
   var body: some View {
     VStack(alignment: .leading, spacing: 14) {
       headerBlock
-      Text(item.text)
-        .font(.system(size: 14, weight: .semibold, design: .rounded))
-        .lineSpacing(1.5)
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, minHeight: 82, maxHeight: 82, alignment: .topLeading)
-        .mask { OverflowFadeView(isEnabled: item.text.count > 110) }
+      contentBlock
       Spacer(minLength: 0)
     }
     .padding(18)
@@ -28,6 +24,21 @@ struct TrayCardView: View {
     VStack(alignment: .leading, spacing: 9) {
       headerRow
       sourceRow(sourceLine)
+    }
+  }
+
+  @ViewBuilder
+  private var contentBlock: some View {
+    if let preview = linkPreviews.model(for: item) {
+      LinkPreviewSummaryView(preview: preview, compact: true)
+        .frame(maxWidth: .infinity, minHeight: 82, maxHeight: 82, alignment: .topLeading)
+    } else {
+      Text(item.text)
+        .font(.system(size: 14, weight: .semibold, design: .rounded))
+        .lineSpacing(1.5)
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, minHeight: 82, maxHeight: 82, alignment: .topLeading)
+        .mask { OverflowFadeView(isEnabled: item.text.count > 110) }
     }
   }
 

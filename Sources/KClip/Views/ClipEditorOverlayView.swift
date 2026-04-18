@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct ClipEditorOverlayView: View {
+  let item: ClipboardItem
   @Binding var text: String
   let onCancel: () -> Void
   let onSave: () -> Void
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      Text("Edit Clip")
+      Text(item.isLink ? "Edit Link" : "Edit Clip")
         .font(.system(size: 15, weight: .bold, design: .rounded))
       TextEditor(text: $text)
         .scrollContentBackground(.hidden)

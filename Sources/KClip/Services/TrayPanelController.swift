@@ -4,6 +4,7 @@ import SwiftUI
 @MainActor
 final class TrayPanelController {
   let store: ClipboardStore
+  let linkPreviews: LinkPreviewStore
   let pasteService: PasteActionService
   let permissionService: AccessibilityPermissionService
   let interaction = TrayInteractionModel()
@@ -21,10 +22,12 @@ final class TrayPanelController {
   var lastToggleAt: Date?
   init(
     store: ClipboardStore,
+    linkPreviews: LinkPreviewStore,
     pasteService: PasteActionService,
     permissionService: AccessibilityPermissionService
   ) {
     self.store = store
+    self.linkPreviews = linkPreviews
     self.pasteService = pasteService
     self.permissionService = permissionService
     configurePanel()
@@ -79,6 +82,7 @@ final class TrayPanelController {
     let view = TrayPanelRootView(
       panelWidth: size.width,
       store: store,
+      linkPreviews: linkPreviews,
       interaction: interaction,
       isPermissionGranted: permissionService.hasAccess(),
       onClose: { [weak self] in self?.closeAndReturnToPrevious() },

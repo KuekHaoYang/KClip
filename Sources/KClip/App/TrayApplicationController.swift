@@ -7,6 +7,7 @@ final class TrayApplicationController {
   private let statusItemController = StatusItemController()
   private lazy var trayPanelController = TrayPanelController(
     store: model.store,
+    linkPreviews: model.linkPreviews,
     pasteService: model.pasteService,
     permissionService: model.permissionService
   )

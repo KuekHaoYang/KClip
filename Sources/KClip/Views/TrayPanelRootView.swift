@@ -3,6 +3,7 @@ import SwiftUI
 struct TrayPanelRootView: View {
   let panelWidth: CGFloat
   let store: ClipboardStore
+  let linkPreviews: LinkPreviewStore
   @ObservedObject var interaction: TrayInteractionModel
   let isPermissionGranted: Bool
   let onClose: () -> Void
@@ -20,6 +21,7 @@ struct TrayPanelRootView: View {
       ClipTrayView(
         items: visibleItems,
         tags: displayedTags,
+        linkPreviews: linkPreviews,
         interaction: interaction,
         isStaged: isStaged,
         selectIndex: activate,
@@ -38,8 +40,12 @@ struct TrayPanelRootView: View {
       if isPermissionGranted == false {
         TrayPermissionBlockView(onOpenPermissions: onOpenPermissions, onRestart: onRestartPermissions)
       }
-      if let item = interaction.previewItem { TrayPreviewStageView(item: item, onClose: interaction.dismissPreview) }
-      if editingItem != nil { TrayEditorStageView(text: $draftText, onCancel: endEditing, onSave: saveEdit) }
+      if let item = interaction.previewItem {
+        TrayPreviewStageView(item: item, linkPreviews: linkPreviews, onClose: interaction.dismissPreview)
+      }
+      if let editingItem {
+        TrayEditorStageView(item: editingItem, text: $draftText, onCancel: endEditing, onSave: saveEdit)
+      }
     }
     .padding(.horizontal, 18)
     .padding(.vertical, 12)

@@ -3,6 +3,7 @@ import SwiftUI
 struct ClipTrayView: View {
   let items: [ClipboardItem]
   let tags: [ClipTag]
+  let linkPreviews: LinkPreviewStore
   @ObservedObject var interaction: TrayInteractionModel
   let isStaged: Bool
   let selectIndex: (Int) -> Void
@@ -34,6 +35,7 @@ struct ClipTrayView: View {
   private var cardsRailView: some View {
     ClipTrayRailView(
       items: items,
+      linkPreviews: linkPreviews,
       interaction: interaction,
       isStaged: isStaged,
       selectIndex: selectIndex,
