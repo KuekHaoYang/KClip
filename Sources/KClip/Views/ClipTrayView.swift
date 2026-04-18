@@ -16,7 +16,7 @@ struct ClipTrayView: View {
   let reorderItem: (ClipboardItem, ClipboardItem) -> Void
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 14) {
+    VStack(alignment: .leading, spacing: 12) {
       TrayFilterBarView(tags: tags, interaction: interaction, resultLabel: searchResultsLabel)
       if items.isEmpty { TrayEmptyContentView(title: emptyTitle, subtitle: emptySubtitle) }
       else { cardsRailView }

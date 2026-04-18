@@ -19,13 +19,14 @@ struct ClipTrayRailView: View {
 
   var body: some View {
     ScrollViewReader { proxy in
-      ScrollView(.horizontal) {
+      ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack(spacing: 14) {
           ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
             card(item, at: index)
           }
         }
         .padding(.horizontal, 6)
+        .padding(.vertical, 4)
         .background(contentMetricsReader)
         .animation(.spring(response: 0.30, dampingFraction: 0.84), value: items.map(\.id))
       }
@@ -33,6 +34,7 @@ struct ClipTrayRailView: View {
       .coordinateSpace(name: "clip-tray-scroll")
       .background(viewportMetricsReader)
       .mask { HorizontalOverflowFadeView(metrics: scrollMetrics) }
+      .frame(height: railHeight)
       .onAppear { syncViewport(with: proxy) }
       .onChange(of: items.map(\.id)) { _, _ in syncViewport(with: proxy) }
       .onChange(of: interaction.selection.index) { _, _ in syncViewport(with: proxy) }
@@ -90,4 +92,6 @@ struct ClipTrayRailView: View {
       )
     }
   }
+
+  private var railHeight: CGFloat { 176 }
 }

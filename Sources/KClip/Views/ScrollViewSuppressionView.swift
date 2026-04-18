@@ -2,17 +2,19 @@ import AppKit
 import SwiftUI
 
 struct ScrollViewSuppressionView: NSViewRepresentable {
-  final class Coordinator { let scrollViews = NSHashTable<NSScrollView>.weakObjects() }
+  final class Coordinator {
+    let scrollViews = NSHashTable<NSScrollView>.weakObjects()
+    var revision = 0
+  }
 
   func makeCoordinator() -> Coordinator { Coordinator() }
   func makeNSView(context: Context) -> NSView { NSView(frame: .zero) }
 
   func updateNSView(_ nsView: NSView, context: Context) {
-    DispatchQueue.main.async {
-      allScrollViews(in: rootView(for: nsView)).forEach { scrollView in
-        context.coordinator.scrollViews.add(scrollView)
-        if isSuppressed(scrollView) == false { suppress(scrollView) }
-      }
+    context.coordinator.revision += 1
+    let revision = context.coordinator.revision
+    [0.0, 0.05, 0.15, 0.35].forEach {
+      scheduleSuppressionSweep(after: $0, from: nsView, coordinator: context.coordinator, revision: revision)
     }
   }
 
@@ -25,6 +27,23 @@ struct ScrollViewSuppressionView: NSViewRepresentable {
   private func allScrollViews(in view: NSView) -> [NSScrollView] {
     let direct = (view as? NSScrollView).map { [$0] } ?? []
     return direct + view.subviews.flatMap(allScrollViews)
+  }
+
+  private func scheduleSuppressionSweep(
+    after delay: Double,
+    from view: NSView,
+    coordinator: Coordinator,
+    revision: Int
+  ) {
+    let sweep = {
+      guard coordinator.revision == revision else { return }
+      allScrollViews(in: rootView(for: view)).forEach { scrollView in
+        coordinator.scrollViews.add(scrollView)
+        if isSuppressed(scrollView) == false { suppress(scrollView) }
+      }
+    }
+    if delay == 0 { DispatchQueue.main.async { sweep() } }
+    else { DispatchQueue.main.asyncAfter(deadline: .now() + delay) { sweep() } }
   }
 
   private func isSuppressed(_ scrollView: NSScrollView?) -> Bool {
