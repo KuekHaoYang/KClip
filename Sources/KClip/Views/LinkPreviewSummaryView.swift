@@ -13,7 +13,8 @@ struct LinkPreviewSummaryView: View {
   }
 
   private var snapshotBottomGap: CGFloat { compact ? 10 : 16 }
-  private var snapshotHeight: CGFloat { compact ? 52 : 148 }
+  private var footerHeight: CGFloat { compact ? 32 : 52 }
+  private var snapshotHeight: CGFloat { compact ? 42 : 100 }
 
   private var snapshotBlock: some View {
     ZStack(alignment: .topLeading) {
@@ -39,6 +40,7 @@ struct LinkPreviewSummaryView: View {
         .foregroundStyle(Color.white.opacity(0.60))
         .lineLimit(1)
     }
+    .frame(maxWidth: .infinity, minHeight: footerHeight, alignment: .topLeading)
   }
 
   private var badgeRow: some View {

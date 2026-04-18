@@ -39,10 +39,12 @@ struct TrayCardRegressionTests {
     let source = try String(contentsOf: previewURL, encoding: .utf8)
 
     #expect(source.contains("snapshotBottomGap"))
+    #expect(source.contains("footerHeight"))
     #expect(source.contains("spacing: snapshotBottomGap"))
     #expect(source.contains("snapshotBlock"))
     #expect(source.contains("snapshotHeight"))
     #expect(source.contains(".frame(height: snapshotHeight)"))
+    #expect(source.contains(".frame(maxWidth: .infinity, minHeight: footerHeight, alignment: .topLeading)"))
     #expect(source.contains(".clipped()"))
     #expect(source.contains("footerBlock"))
     #expect(source.contains("preview.displayImage"))
