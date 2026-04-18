@@ -16,6 +16,15 @@ struct ScrollerVisibilityRegressionTests {
     #expect(suppressorSource.contains("autohidesScrollers = true"))
   }
 
+  @Test
+  func trayCachesSuppressedScrollViewAfterDiscovery() throws {
+    let source = try String(contentsOf: sourceURL("Sources/KClip/Views/ScrollViewSuppressionView.swift"), encoding: .utf8)
+
+    #expect(source.contains("makeCoordinator()"))
+    #expect(source.contains("context.coordinator.scrollView"))
+    #expect(source.contains("context.coordinator.scrollView = scrollView"))
+  }
+
   private func sourceURL(_ path: String) -> URL {
     URL(fileURLWithPath: #filePath)
       .deletingLastPathComponent()
