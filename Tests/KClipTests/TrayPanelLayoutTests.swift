@@ -46,4 +46,10 @@ struct TrayPanelLayoutTests {
     #expect(TrayPanelLayout.trayContentHeight < TrayPanelLayout.preferredSize.height)
     #expect(TrayPanelLayout.overlayBottomInset < TrayPanelLayout.trayContentHeight)
   }
+
+  @Test
+  func restingPanelKeepsExtraTopSlackAboveTraySurface() {
+    #expect(TrayPanelLayout.trayContentHeight >= 268)
+    #expect(TrayPanelLayout.preferredSize.height - TrayPanelLayout.trayContentHeight >= 32)
+  }
 }
