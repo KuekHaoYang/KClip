@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.10 · 2026-04-18
+
+- Made compact `Color` clips fill the full preview slot instead of keeping the previously shrunken fixed-height swatch.
+- Enlarged the color surface in the editor and expanded preview so the actual color block is easier to see.
+- Kept animated color transitions and the picker-sync stability fix from the previous follow-up patches.
+
 ## v0.1.9 · 2026-04-18
 
 - Removed the remaining nested `Color` preview chrome so color cards and overlays now render as outer container -> color surface, not outer container -> inner card -> color.
