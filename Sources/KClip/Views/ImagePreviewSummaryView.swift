@@ -46,7 +46,7 @@ struct ImagePreviewSummaryView: View {
   @ViewBuilder
   private var mediaContent: some View {
     if let image = item.previewImage {
-      if compact { compactThumbnail(image) }
+      if compact { compactImage(image) }
       else { expandedImage(image) }
     } else {
       Image(systemName: "photo")
@@ -56,18 +56,16 @@ struct ImagePreviewSummaryView: View {
     }
   }
 
-  private func compactThumbnail(_ image: NSImage) -> some View {
+  private func compactImage(_ image: NSImage) -> some View {
     Image(nsImage: image)
       .resizable()
       .interpolation(.high)
       .scaledToFill()
       .frame(maxWidth: .infinity)
-      .frame(height: 48)
-      .background(Color.white.opacity(0.04))
-      .clipShape(compactImageShape)
-      .overlay(compactImageShape.stroke(Color.white.opacity(0.10), lineWidth: 1))
-      .padding(previewInset)
+      .frame(maxHeight: .infinity)
+      .contentTransition(.opacity)
       .transition(imageTransition)
+      .clipped()
   }
 
   private func expandedImage(_ image: NSImage) -> some View {
@@ -87,10 +85,6 @@ struct ImagePreviewSummaryView: View {
   private var previewCornerRadius: CGFloat { 22 }
   private var previewInset: CGFloat { compact ? 10 : 14 }
   private var innerPreviewCornerRadius: CGFloat { previewCornerRadius - previewInset }
-
-  private var compactImageShape: RoundedRectangle {
-    RoundedRectangle(cornerRadius: innerPreviewCornerRadius, style: .continuous)
-  }
 
   private var expandedImageShape: RoundedRectangle {
     RoundedRectangle(cornerRadius: innerPreviewCornerRadius, style: .continuous)

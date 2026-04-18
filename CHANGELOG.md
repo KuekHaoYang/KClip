@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.15 · 2026-04-18
+
+- Removed the extra nested compact image slab so tray image clips now render as a single card surface followed directly by the image itself.
+- Fixed filtered-tab activation semantics so `Image`, `Code`, `Color`, and other tag views now require the same select-then-paste second click as `All`.
+- Added direct compact-image fade motion and locked both regressions behind dedicated tests before cutting the release.
+
 ## v0.1.14 · 2026-04-18
 
 - Added explicit resting top headroom above the docked tray surface so the tray border no longer gets shaved on some open animations.
