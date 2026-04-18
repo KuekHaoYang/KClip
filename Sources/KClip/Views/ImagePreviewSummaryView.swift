@@ -64,9 +64,9 @@ struct ImagePreviewSummaryView: View {
       .frame(maxWidth: .infinity)
       .frame(height: 48)
       .background(Color.white.opacity(0.04))
-      .clipShape(Capsule(style: .continuous))
-      .overlay(Capsule(style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
-      .padding(10)
+      .clipShape(compactImageShape)
+      .overlay(compactImageShape.stroke(Color.white.opacity(0.10), lineWidth: 1))
+      .padding(previewInset)
       .transition(imageTransition)
   }
 
@@ -86,10 +86,14 @@ struct ImagePreviewSummaryView: View {
 
   private var previewCornerRadius: CGFloat { 22 }
   private var previewInset: CGFloat { compact ? 10 : 14 }
-  private var expandedImageCornerRadius: CGFloat { previewCornerRadius - previewInset }
+  private var innerPreviewCornerRadius: CGFloat { previewCornerRadius - previewInset }
+
+  private var compactImageShape: RoundedRectangle {
+    RoundedRectangle(cornerRadius: innerPreviewCornerRadius, style: .continuous)
+  }
 
   private var expandedImageShape: RoundedRectangle {
-    RoundedRectangle(cornerRadius: expandedImageCornerRadius, style: .continuous)
+    RoundedRectangle(cornerRadius: innerPreviewCornerRadius, style: .continuous)
   }
 
   private var previewShape: RoundedRectangle {
