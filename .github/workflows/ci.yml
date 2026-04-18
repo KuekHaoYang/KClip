@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master", "codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run tests
+        run: swift test
+      - name: Build release bundle smoke test
+        run: ./script/make_release.sh v0.0.0-ci

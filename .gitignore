@@ -1,0 +1,9 @@
+.DS_Store
+.build/
+.codex/
+.swiftpm/
+dist/
+docs/superpowers/
+DerivedData/
+*.swp
+*.tmp
