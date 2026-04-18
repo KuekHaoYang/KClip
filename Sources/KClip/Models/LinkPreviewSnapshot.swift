@@ -9,7 +9,7 @@ struct LinkPreviewSnapshot {
   let host: String
   let phase: Phase
   let image: NSImage?
-  var displayImage: NSImage? { LinkPreviewImageAnalyzer.displayImage(from: image) }
+  let displayImage: NSImage?
 
   init(url: URL, title: String? = nil, phase: Phase = .ready, image: NSImage? = nil) {
     let cleanTitle = title?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -18,6 +18,7 @@ struct LinkPreviewSnapshot {
     self.title = cleanTitle.isEmpty ? self.host : cleanTitle
     self.phase = phase
     self.image = image
+    self.displayImage = LinkPreviewImageAnalyzer.displayImage(from: image)
   }
 
   static func loading(url: URL) -> LinkPreviewSnapshot {

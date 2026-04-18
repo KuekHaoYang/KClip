@@ -35,13 +35,13 @@ struct TrayCardRegressionTests {
   }
 
   @Test
-  func linkCardUsesBoundedPreviewWithSeparateTextRail() throws {
+  func linkCardUsesIntegratedFooterOverlay() throws {
     let source = try String(contentsOf: previewURL, encoding: .utf8)
 
-    #expect(source.contains("mediaHeight"))
-    #expect(source.contains("detailsBlock"))
-    #expect(source.contains(".frame(height: mediaHeight)"))
-    #expect(source.contains(".lineLimit(compact ? 2 : 3)"))
+    #expect(source.contains("footerBlock"))
+    #expect(source.contains("bottomShade"))
+    #expect(source.contains("alignment: .bottomLeading"))
+    #expect(source.contains("detailsBlock") == false)
     #expect(source.contains("preview.displayImage"))
     #expect(source.contains("chromeBar"))
   }
