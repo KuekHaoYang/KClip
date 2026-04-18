@@ -35,6 +35,8 @@ struct ClipPreviewOverlayView: View {
   private var previewBody: some View {
     if item.isImage {
       ImagePreviewSummaryView(item: item, compact: false)
+    } else if let snippet = item.colorSnippet {
+      ColorPreviewSummaryView(snippet: snippet, compact: false)
     } else if let snippet = item.codeSnippet {
       CodePreviewSummaryView(snippet: snippet, compact: false)
     } else if let preview = linkPreviews.model(for: item) {
@@ -61,8 +63,13 @@ struct ClipPreviewOverlayView: View {
 
   private var overlaySize: CGSize {
     if item.isImage { return CGSize(width: 560, height: 262) }
+    if let snippet = item.colorSnippet { return colorOverlaySize(snippet) }
     if let snippet = item.codeSnippet { return codeOverlaySize(snippet) }
     return CGSize(width: 500, height: 246)
+  }
+
+  private func colorOverlaySize(_ snippet: ColorSnippet) -> CGSize {
+    CGSize(width: 520, height: snippet.samples.count > 4 ? 268 : 248)
   }
 
   private func codeOverlaySize(_ snippet: CodeSnippet) -> CGSize {
