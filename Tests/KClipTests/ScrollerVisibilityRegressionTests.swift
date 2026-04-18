@@ -23,7 +23,9 @@ struct ScrollerVisibilityRegressionTests {
     #expect(source.contains("makeCoordinator()"))
     #expect(source.contains("NSHashTable<NSScrollView>.weakObjects()"))
     #expect(source.contains("allScrollViews(in:"))
-    #expect(source.contains("context.coordinator.scrollViews.add(scrollView)"))
+    #expect(source.contains("coordinator.scrollViews.add(scrollView)"))
+    #expect(source.contains("DispatchQueue.main.asyncAfter"))
+    #expect(source.contains("scheduleSuppressionSweep"))
   }
 
   private func sourceURL(_ path: String) -> URL {

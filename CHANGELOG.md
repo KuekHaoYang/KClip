@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.13 · 2026-04-18
+
+- Removed the last visible bottom tray slider by forcing the card rail into a fixed card-height viewport instead of leaving spare scroller gutter below the cards.
+- Added repeated delayed scroll-view suppression sweeps after mount so late-created macOS scrollers lose their track and thumb too.
+- Kept the rail on the explicit hidden-indicator initializer as a second guard against the system reintroducing the horizontal slider.
+
 ## v0.1.12 · 2026-04-18
 
 - Removed the remaining visible tray/editor sliders by suppressing every live `NSScrollView`, not just the first one discovered in the panel tree.

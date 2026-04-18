@@ -21,7 +21,9 @@ struct ClipTrayViewportRegressionTests {
     let source = try railSource()
     #expect(source.contains(".padding(.horizontal, 6)"))
     #expect(source.contains(".mask { HorizontalOverflowFadeView(metrics: scrollMetrics) }"))
+    #expect(source.contains("ScrollView(.horizontal, showsIndicators: false)"))
     #expect(source.contains(".scrollIndicators(.hidden)"))
+    #expect(source.contains(".frame(height: railHeight)"))
     #expect(source.contains("HiddenHorizontalScrollerView") == false)
   }
 
