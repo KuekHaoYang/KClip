@@ -10,7 +10,10 @@ struct ClipEditorOverlayView: View {
     VStack(alignment: .leading, spacing: 12) {
       Text(editorTitle)
         .font(.system(size: 15, weight: .bold, design: .rounded))
-      if let snippet = currentSnippet {
+      if let snippet = currentColorSnippet {
+        ColorEditorPaletteView(text: $text, snippet: snippet)
+          .transition(.asymmetric(insertion: .offset(y: 8).combined(with: .opacity), removal: .opacity))
+      } else if let snippet = currentCodeSnippet {
         renderedPreview(snippet)
           .transition(.asymmetric(insertion: .offset(y: 8).combined(with: .opacity), removal: .opacity))
       }
@@ -18,7 +21,7 @@ struct ClipEditorOverlayView: View {
         .scrollContentBackground(.hidden)
         .font(.system(size: 13, weight: .medium, design: .rounded))
         .padding(10)
-        .frame(height: currentSnippet == nil ? 126 : 112)
+        .frame(height: editorHeight)
         .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Color.white.opacity(0.06)))
       HStack(spacing: 10) {
         Spacer(minLength: 0)
@@ -31,12 +34,17 @@ struct ClipEditorOverlayView: View {
     .frame(width: 420)
     .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(.regularMaterial))
     .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
-    .animation(.spring(response: 0.24, dampingFraction: 0.86), value: currentSnippet?.language.rawValue)
-    .animation(.spring(response: 0.24, dampingFraction: 0.86), value: currentSnippet != nil)
+    .animation(.spring(response: 0.24, dampingFraction: 0.86), value: currentCodeSnippet?.language.rawValue)
+    .animation(.spring(response: 0.24, dampingFraction: 0.86), value: currentColorSnippet?.samples.count)
+    .animation(.spring(response: 0.24, dampingFraction: 0.86), value: currentColorSnippet != nil || currentCodeSnippet != nil)
   }
 
-  private var currentSnippet: CodeSnippet? { CodeSnippet.parse(text) }
-  private var editorTitle: String { currentSnippet != nil ? "Edit Code" : (item.isLink ? "Edit Link" : "Edit Clip") }
+  private var currentColorSnippet: ColorSnippet? { ColorSnippet.parse(text) }
+  private var currentCodeSnippet: CodeSnippet? { currentColorSnippet == nil ? CodeSnippet.parse(text) : nil }
+  private var editorTitle: String {
+    currentColorSnippet != nil ? "Edit Color" : (currentCodeSnippet != nil ? "Edit Code" : (item.isLink ? "Edit Link" : "Edit Clip"))
+  }
+  private var editorHeight: CGFloat { currentColorSnippet != nil ? 94 : (currentCodeSnippet == nil ? 126 : 112) }
 
   private func renderedPreview(_ snippet: CodeSnippet) -> some View {
     CodePreviewSummaryView(snippet: snippet, compact: false)

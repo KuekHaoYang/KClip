@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7 · 2026-04-18
+
+- Added first-class `Color` clip support for standalone hex codes and palette-style color lists, with live swatch rendering in tray cards and expanded preview.
+- Tightened automatic `Color` tagging so prose that merely mentions a hex value no longer gets misclassified as a color clip.
+- Added animated color editing with a palette-backed `ColorPicker`, so editing a color clip can update the actual hex code without losing direct text editing.
+
 ## v0.1.6 · 2026-04-18
 
 - Added syntax-colored code rendering so `Rendered` previews no longer show monochrome code blocks.

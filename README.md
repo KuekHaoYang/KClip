@@ -11,6 +11,7 @@ KClip is a fast macOS menu bar clipboard history app focused on speed, polished 
 - Keeps a searchable clipboard history in the menu bar.
 - Stores text and image clips locally in Application Support.
 - Auto-tags copied screenshots, photos, and image files as `Image`.
+- Auto-tags standalone hex color palettes as `Color`, with swatch previews and palette editing.
 - Supports tag filtering, pinning, preview, edit, delete, and reorder.
 - Pastes text or images directly back into the previous app after selection.
 - Exports dragged clips as plain text or `.txt` files, and image clips as `.png` files.
@@ -32,7 +33,7 @@ swift test
 For a packaged archive:
 
 ```bash
-./script/make_release.sh v0.1.6
+./script/make_release.sh v0.1.7
 ```
 
 ## Requirements
