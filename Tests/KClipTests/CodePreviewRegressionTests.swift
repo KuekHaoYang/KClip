@@ -30,6 +30,16 @@ struct CodePreviewRegressionTests {
     #expect(summary.contains("snippet.language.title"))
   }
 
+  @Test
+  func codePreviewUsesCompactSnippetSizedOverlay() throws {
+    let overlay = try source("Sources/KClip/Views/ClipPreviewOverlayView.swift")
+
+    #expect(overlay.contains("codeOverlaySize"))
+    #expect(overlay.contains("snippet.lineCount"))
+    #expect(overlay.contains("width: 520"))
+    #expect(overlay.contains("height: min"))
+  }
+
   private func source(_ path: String) throws -> String {
     try String(contentsOf: rootURL.appending(path: path), encoding: .utf8)
   }

@@ -67,9 +67,9 @@ struct ClipboardItem: Codable, Identifiable, Equatable {
     sourceBundleID = try container.decodeIfPresent(String.self, forKey: .sourceBundleID)
     isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned) ?? false
     let legacyTags = try container.decodeIfPresent([ClipTag].self, forKey: .tags)
-    let decodedTags = try container.decodeIfPresent([ClipTag].self, forKey: .suggestedTags) ?? legacyTags ?? []
     let baseTags = ClipTag.inferredTags(for: plainText ?? text, includesImage: imageData != nil)
-    suggestedTags = Self.normalized(decodedTags + baseTags)
+    if try container.decodeIfPresent([ClipTag].self, forKey: .suggestedTags) != nil { suggestedTags = baseTags.filter(\.isAssignable) }
+    else { suggestedTags = Self.normalized((legacyTags ?? []) + baseTags) }
     manualTags = Self.normalized(try container.decodeIfPresent([ClipTag].self, forKey: .manualTags) ?? [])
     suppressedTags = Self.normalized(
       try container.decodeIfPresent([ClipTag].self, forKey: .suppressedTags) ?? []
