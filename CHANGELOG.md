@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased
+## v0.1.1 · 2026-04-18
 
 - Added first-class image clipboard support for copied screenshots, photos, and image files.
 - Added automatic `Image` tagging, bounded image preview blocks, and image-aware paste/drag export.
+- Fixed Finder image-file capture so KClip stores the actual image instead of Finder's icon representation.
+- Added screenshot-folder ingestion for screenshot shortcuts that save to a file without copying to the clipboard.
+- Tightened the compact tray image treatment with a full-width pill preview so the image no longer reads as a square slab.
 
 ## v0.1.0 · 2026-04-18
 

@@ -17,6 +17,26 @@ struct ImagePreviewRegressionTests {
     #expect(summary.contains("scaledToFit"))
   }
 
+  @Test
+  func compactImagePreviewAvoidsFooterOverflowInTrayCard() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("if compact"))
+    #expect(summary.contains("VStack(alignment: .leading, spacing: compact ? 10 : 14)") == false)
+    #expect(summary.contains("Text(item.sourceLine ?? \"Clipboard image\")"))
+  }
+
+  @Test
+  func compactImagePreviewClipsImageIntoRoundedSurface() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("scaledToFill()"))
+    #expect(summary.contains("compactThumbnail(image)"))
+    #expect(summary.contains("clipShape(Capsule(style: .continuous))"))
+    #expect(summary.contains("frame(width: 120, height: 46)") == false)
+    #expect(summary.contains("padding(.top, 22)"))
+  }
+
   private func source(_ path: String) throws -> String {
     try String(contentsOf: rootURL.appending(path: path), encoding: .utf8)
   }
