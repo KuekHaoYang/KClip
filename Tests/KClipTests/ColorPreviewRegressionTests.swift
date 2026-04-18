@@ -22,6 +22,7 @@ struct ColorPreviewRegressionTests {
     #expect(palette.contains("ColorPicker"))
     #expect(palette.contains("ColorPaletteSurfaceView"))
     #expect(palette.contains("ColorPreviewSummaryView") == false)
+    #expect(palette.contains("frame(height: 128)"))
     #expect(palette.contains("updatingSample("))
     #expect(palette.contains(".animation("))
   }
@@ -30,13 +31,16 @@ struct ColorPreviewRegressionTests {
   func colorSummaryBuildsAnimatedSwatches() throws {
     let summary = try source("Sources/KClip/Views/ColorPreviewSummaryView.swift")
     let surface = try source("Sources/KClip/Views/ColorPaletteSurfaceView.swift")
+    let overlay = try source("Sources/KClip/Views/ClipPreviewOverlayView.swift")
 
     #expect(summary.contains("ColorPaletteSurfaceView"))
     #expect(summary.contains(".transition("))
+    #expect(summary.contains("maxHeight: .infinity"))
     #expect(summary.contains(".background(") == false)
     #expect(summary.contains("headerRow") == false)
     #expect(surface.contains("RoundedRectangle"))
     #expect(surface.contains("sample.swiftUIColor"))
+    #expect(overlay.contains("height: 236"))
   }
 
   private func source(_ path: String) throws -> String {

@@ -10,7 +10,7 @@ struct ColorEditorPaletteView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
-      ColorPaletteSurfaceView(snippet: snippet, compact: false).frame(height: 104)
+      ColorPaletteSurfaceView(snippet: snippet, compact: false).frame(height: 128)
       HStack(spacing: 10) {
         Picker("Swatch", selection: $selectedIndex) {
           ForEach(snippet.samples) { sample in Text(sample.displayCode).tag(sample.id) }
