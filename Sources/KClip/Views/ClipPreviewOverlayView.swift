@@ -69,7 +69,7 @@ struct ClipPreviewOverlayView: View {
   }
 
   private func colorOverlaySize(_ snippet: ColorSnippet) -> CGSize {
-    CGSize(width: 520, height: snippet.samples.count > 4 ? 268 : 248)
+    CGSize(width: 500, height: 214)
   }
 
   private func codeOverlaySize(_ snippet: CodeSnippet) -> CGSize {
