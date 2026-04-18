@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.11 · 2026-04-18
+
+- Lifted preview and edit overlays into a taller animated panel state so they escape above the tray instead of being trapped inside the tray bounds.
+- Kept the tray docked to the bottom edge while the overlay grows upward, which fixes the color edit flow that could collapse KClip when the raised surface was clicked.
+- Rebuilt `Color` swatches around inset-radius math so the visible color block follows `inner = outer - padding` and no longer reads like a nested extra slab.
+
 ## v0.1.10 · 2026-04-18
 
 - Made compact `Color` clips fill the full preview slot instead of keeping the previously shrunken fixed-height swatch.

@@ -17,6 +17,20 @@ struct TrayPanelMotionRegressionTests {
   }
 
   @Test
+  func expandedStageKeepsTrayDockedWhileOverlayEscapesUpward() throws {
+    let rootSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayPanelRootView.swift"), encoding: .utf8)
+    let editorSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayEditorStageView.swift"), encoding: .utf8)
+    let previewSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayPreviewStageView.swift"), encoding: .utf8)
+
+    #expect(rootSource.contains("ZStack(alignment: .bottom)"))
+    #expect(rootSource.contains("TrayPanelWindowSizerView"))
+    #expect(rootSource.contains("TrayPanelLayout.expandedHeight"))
+    #expect(rootSource.contains("TrayPanelLayout.trayContentHeight"))
+    #expect(editorSource.contains("TrayPanelLayout.overlayBottomInset"))
+    #expect(previewSource.contains("TrayPanelLayout.overlayBottomInset"))
+  }
+
+  @Test
   func controllerWarmsLayoutBeforeShowingTray() throws {
     let source = try String(contentsOf: sourceURL("Sources/KClip/Services/TrayPanelController.swift"), encoding: .utf8)
 

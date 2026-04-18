@@ -43,6 +43,18 @@ struct ColorPreviewRegressionTests {
     #expect(overlay.contains("height: 236"))
   }
 
+  @Test
+  func colorSurfaceUsesInsetRadiusMathWithoutExtraContainerFill() throws {
+    let surface = try source("Sources/KClip/Views/ColorPaletteSurfaceView.swift")
+
+    #expect(surface.contains("outerCornerRadius"))
+    #expect(surface.contains("previewInset"))
+    #expect(surface.contains("innerCornerRadius"))
+    #expect(surface.contains("outerCornerRadius - previewInset"))
+    #expect(surface.contains(".padding(previewInset)"))
+    #expect(surface.contains(".fill(.regularMaterial)") == false)
+  }
+
   private func source(_ path: String) throws -> String {
     try String(contentsOf: rootURL.appending(path: path), encoding: .utf8)
   }

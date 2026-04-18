@@ -39,4 +39,11 @@ struct TrayPanelLayoutTests {
     #expect(entryFrame.origin.x == 351.8)
     #expect(entryFrame.origin.y == 90.5)
   }
+
+  @Test
+  func expandedPanelAddsHeadroomWithoutMovingTheTrayFloor() {
+    #expect(TrayPanelLayout.expandedHeight > TrayPanelLayout.preferredSize.height)
+    #expect(TrayPanelLayout.trayContentHeight < TrayPanelLayout.preferredSize.height)
+    #expect(TrayPanelLayout.overlayBottomInset < TrayPanelLayout.trayContentHeight)
+  }
 }

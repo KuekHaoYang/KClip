@@ -7,12 +7,14 @@ struct TrayEditorStageView: View {
   let onSave: () -> Void
 
   var body: some View {
-    ZStack {
+    ZStack(alignment: .bottom) {
       Color.black.opacity(0.18)
+        .frame(maxWidth: .infinity)
+        .frame(height: TrayPanelLayout.trayContentHeight)
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .transition(.opacity)
       ClipEditorOverlayView(item: item, text: $text, onCancel: onCancel, onSave: onSave)
-        .padding(.top, 10)
+        .padding(.bottom, TrayPanelLayout.overlayBottomInset)
         .transition(
           .asymmetric(
             insertion: .offset(y: 20).combined(with: .opacity).combined(with: .scale(scale: 0.96)),
@@ -20,5 +22,6 @@ struct TrayEditorStageView: View {
           )
         )
     }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
   }
 }
