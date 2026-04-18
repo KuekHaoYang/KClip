@@ -29,7 +29,10 @@ struct TrayCardView: View {
 
   @ViewBuilder
   private var contentBlock: some View {
-    if let preview = linkPreviews.model(for: item) {
+    if item.isImage {
+      ImagePreviewSummaryView(item: item, compact: true)
+        .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
+    } else if let preview = linkPreviews.model(for: item) {
       LinkPreviewSummaryView(preview: preview, compact: true)
         .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 88, alignment: .topLeading)
     } else {
@@ -46,7 +49,7 @@ struct TrayCardView: View {
     HStack(alignment: .firstTextBaseline, spacing: 10) {
       Text(item.primaryTag.title)
         .font(.system(size: 10, weight: .bold, design: .rounded))
-        .foregroundStyle(tagColor)
+        .foregroundStyle(item.trayCardTagColor)
       Spacer(minLength: 0)
       if item.isPinned { pinMark }
       Text(item.capturedAt.relativeClipTimestamp())
@@ -101,17 +104,5 @@ struct TrayCardView: View {
 
   private var shadowColor: Color {
     .black.opacity(isSelected ? 0.14 : 0.07)
-  }
-
-  private var tagColor: Color {
-    switch item.primaryTag {
-    case .pinned: Color(red: 0.98, green: 0.80, blue: 0.46)
-    case .general: Color.white.opacity(0.72)
-    case .code: Color(red: 0.58, green: 0.78, blue: 1.00)
-    case .link: Color(red: 0.58, green: 0.90, blue: 0.94)
-    case .note: Color(red: 0.66, green: 0.90, blue: 0.70)
-    case .color: Color(red: 1.00, green: 0.78, blue: 0.46)
-    case .image: Color(red: 0.96, green: 0.72, blue: 0.86)
-    }
   }
 }

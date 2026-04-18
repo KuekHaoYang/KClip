@@ -17,13 +17,16 @@ extension ClipboardItem {
   }
 
   func updating(text: String) -> ClipboardItem {
-    ClipboardItem(
+    guard plainText != nil else { return self }
+    return ClipboardItem(
       id: id,
       text: text,
+      plainText: text,
+      imageData: imageData,
       capturedAt: capturedAt,
       sourceAppName: sourceAppName,
       sourceBundleID: sourceBundleID,
-      suggestedTags: ClipTag.inferredTags(for: text),
+      suggestedTags: ClipTag.inferredTags(for: text, includesImage: imageData != nil),
       manualTags: manualTags,
       suppressedTags: suppressedTags,
       isPinned: isPinned
@@ -34,6 +37,8 @@ extension ClipboardItem {
     ClipboardItem(
       id: id,
       text: text,
+      plainText: plainText,
+      imageData: imageData,
       capturedAt: capturedAt,
       sourceAppName: sourceAppName,
       sourceBundleID: sourceBundleID,
@@ -50,6 +55,8 @@ extension ClipboardItem {
     return ClipboardItem(
       id: id,
       text: text,
+      plainText: plainText,
+      imageData: imageData,
       capturedAt: capturedAt,
       sourceAppName: sourceAppName,
       sourceBundleID: sourceBundleID,
@@ -61,9 +68,11 @@ extension ClipboardItem {
   }
 
   func resettingTags() -> ClipboardItem {
-    ClipboardItem(
+    return ClipboardItem(
       id: id,
       text: text,
+      plainText: plainText,
+      imageData: imageData,
       capturedAt: capturedAt,
       sourceAppName: sourceAppName,
       sourceBundleID: sourceBundleID,

@@ -27,8 +27,9 @@ enum ClipTag: String, Codable, CaseIterable, Identifiable {
   static var trayCases: [ClipTag] { [.pinned, .code, .link, .note, .color, .image] }
   static var assignableCases: [ClipTag] { trayCases.filter(\.isAssignable) }
 
-  static func inferredTags(for text: String) -> [ClipTag] {
+  static func inferredTags(for text: String, includesImage: Bool = false) -> [ClipTag] {
     var tags: [ClipTag] = [.general]
+    if includesImage { tags.append(.image) }
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     let lower = trimmed.lowercased()
     if LinkTextClassifier.url(in: trimmed) != nil { tags.append(.link) }

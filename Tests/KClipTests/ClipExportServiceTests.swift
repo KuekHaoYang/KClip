@@ -21,4 +21,16 @@ struct ClipExportServiceTests {
     #expect(fileURL.pathExtension == "txt")
     #expect(try String(contentsOf: fileURL, encoding: .utf8) == "line 1\nline 2")
   }
+
+  @Test
+  func temporaryExportFileContainsImageData() throws {
+    let directory = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+    let data = try samplePNGData()
+    let item = ClipboardItem(imageData: data)
+
+    let fileURL = try ClipExportService.writeTemporaryFile(for: item, directory: directory)
+
+    #expect(fileURL.pathExtension == "png")
+    #expect(try Data(contentsOf: fileURL) == data)
+  }
 }

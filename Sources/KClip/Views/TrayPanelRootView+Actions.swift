@@ -31,9 +31,10 @@ extension TrayPanelRootView {
   }
 
   func beginEditing(_ item: ClipboardItem) {
+    guard item.isEditable else { return }
     withAnimation(.spring(response: 0.30, dampingFraction: 0.84)) {
       interaction.dismissPreview()
-      draftText = item.text
+      draftText = item.plainText ?? ""
       editingItem = item
     }
   }

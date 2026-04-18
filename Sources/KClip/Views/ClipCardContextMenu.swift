@@ -12,7 +12,7 @@ struct ClipCardContextMenu: View {
   var body: some View {
     Group {
       Button("Preview", action: previewItem)
-      Button("Edit Clip", action: editItem)
+      if item.isEditable { Button("Edit Clip", action: editItem) }
       Button(item.isPinned ? "Unpin This" : "Pin This", action: pinItem)
       Menu("Manage Tags") {
         ForEach(ClipTag.assignableCases) { tag in

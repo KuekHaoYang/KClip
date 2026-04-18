@@ -4,13 +4,16 @@ import Quartz
 
 struct PasteActionService {
   var writeText: (String) -> Void
+  var writeImage: (Data) -> Void
   var sendPaste: () -> Void
 
   init(
     writeText: @escaping (String) -> Void = PasteActionService.defaultWriteText,
+    writeImage: @escaping (Data) -> Void = PasteActionService.defaultWriteImage,
     sendPaste: @escaping () -> Void = PasteActionService.defaultSendPaste
   ) {
     self.writeText = writeText
+    self.writeImage = writeImage
     self.sendPaste = sendPaste
   }
 
@@ -22,6 +25,20 @@ struct PasteActionService {
 
     writeText(text)
     return true
+  }
+
+  @discardableResult
+  func preparePaste(imageData: Data) -> Bool {
+    guard imageData.isEmpty == false else { return false }
+    writeImage(imageData)
+    return true
+  }
+
+  @discardableResult
+  func preparePaste(item: ClipboardItem) -> Bool {
+    if let plainText = item.plainText { return preparePaste(text: plainText) }
+    guard let imageData = item.imageData else { return false }
+    return preparePaste(imageData: imageData)
   }
 
   func sendPreparedPaste() {
@@ -36,10 +53,23 @@ struct PasteActionService {
     return true
   }
 
+  @discardableResult
+  func performPaste(item: ClipboardItem) -> Bool {
+    guard preparePaste(item: item) else { return false }
+    sendPreparedPaste()
+    return true
+  }
+
   private static func defaultWriteText(_ text: String) {
     let pasteboard = NSPasteboard.general
     pasteboard.clearContents()
     pasteboard.setString(text, forType: .string)
+  }
+
+  private static func defaultWriteImage(_ data: Data) {
+    let pasteboard = NSPasteboard.general
+    pasteboard.clearContents()
+    pasteboard.setData(data, forType: .png)
   }
 
   private static func defaultSendPaste() {
