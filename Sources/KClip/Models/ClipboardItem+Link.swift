@@ -1,6 +1,6 @@
 import Foundation
 
 extension ClipboardItem {
-  var linkURL: URL? { LinkTextClassifier.url(in: text) }
+  var linkURL: URL? { plainText.flatMap(LinkTextClassifier.url(in:)) }
   var isLink: Bool { linkURL != nil }
 }

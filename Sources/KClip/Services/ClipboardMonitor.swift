@@ -35,8 +35,14 @@ final class ClipboardMonitor {
   private func captureIfNeeded() {
     guard pasteboard.changeCount != changeCount else { return }
     changeCount = pasteboard.changeCount
-    guard let text = pasteboard.string(forType: .string) else { return }
     let source = applicationTracker.currentTarget()
-    store.record(text: text, sourceAppName: source?.localizedName, sourceBundleID: source?.bundleIdentifier)
+    switch ClipboardCaptureReader.capture(from: pasteboard) {
+    case .text(let text):
+      store.record(text: text, sourceAppName: source?.localizedName, sourceBundleID: source?.bundleIdentifier)
+    case .image(let data):
+      store.record(imageData: data, sourceAppName: source?.localizedName, sourceBundleID: source?.bundleIdentifier)
+    case nil:
+      return
+    }
   }
 }

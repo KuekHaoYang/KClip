@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 import Testing
 @testable import KClip
 
@@ -35,5 +36,16 @@ struct ClipboardItemTests {
 
     #expect(item.sourceAppName == "Safari")
     #expect(item.sourceBundleID == "com.apple.Safari")
+  }
+
+  @Test
+  func imageItemsKeepImageTagAndNoTextPayload() throws {
+    let item = ClipboardItem(imageData: try samplePNGData(), imageSize: CGSize(width: 96, height: 64))
+
+    #expect(item.isImage)
+    #expect(item.text == "Image 96×64")
+    #expect(item.plainText == nil)
+    #expect(item.tags == [ClipTag.general, .image])
+    #expect(item.linkURL == nil)
   }
 }

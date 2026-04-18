@@ -12,7 +12,7 @@ struct ClipPreviewOverlayView: View {
       previewBody.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     .padding(20)
-    .frame(width: 500, height: 246, alignment: .topLeading)
+    .frame(width: overlaySize.width, height: overlaySize.height, alignment: .topLeading)
     .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(.regularMaterial))
     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
     .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
@@ -33,7 +33,9 @@ struct ClipPreviewOverlayView: View {
 
   @ViewBuilder
   private var previewBody: some View {
-    if let preview = linkPreviews.model(for: item) {
+    if item.isImage {
+      ImagePreviewSummaryView(item: item, compact: false)
+    } else if let preview = linkPreviews.model(for: item) {
       LinkPreviewSummaryView(preview: preview, compact: false)
     } else {
       ScrollView {
@@ -53,5 +55,9 @@ struct ClipPreviewOverlayView: View {
   private func openLink() {
     guard let url = item.linkURL else { return }
     NSWorkspace.shared.open(url)
+  }
+
+  private var overlaySize: CGSize {
+    item.isImage ? CGSize(width: 560, height: 262) : CGSize(width: 500, height: 246)
   }
 }

@@ -4,15 +4,16 @@
   <img src="assets/logo.svg" alt="KClip logo" width="160" />
 </p>
 
-KClip is a fast macOS menu bar clipboard history app focused on speed, polished motion, and local-only text storage.
+KClip is a fast macOS menu bar clipboard history app focused on speed, polished motion, and local-only clipboard storage.
 
 ## What It Does
 
 - Keeps a searchable clipboard history in the menu bar.
-- Stores text clips locally in Application Support.
+- Stores text and image clips locally in Application Support.
+- Auto-tags copied screenshots, photos, and image files as `Image`.
 - Supports tag filtering, pinning, preview, edit, delete, and reorder.
-- Pastes directly back into the previous app after selection.
-- Exports dragged clips as plain text or `.txt` files.
+- Pastes text or images directly back into the previous app after selection.
+- Exports dragged clips as plain text or `.txt` files, and image clips as `.png` files.
 
 ## Install From A Release
 

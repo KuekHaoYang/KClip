@@ -20,10 +20,10 @@ extension TrayPanelController {
       return
     }
     permissionGuide.hide()
-    guard pasteService.preparePaste(text: item.text) else { return }
+    guard pasteService.preparePaste(item: item) else { return }
     store.promoteAfterPaste(id: item.id)
     let targetBundleID = previousApplication?.bundleIdentifier
-    DebugTrace.write("paste target=\(targetBundleID ?? "nil") text=\(item.text.prefix(24))")
+    DebugTrace.write("paste target=\(targetBundleID ?? "nil") clip=\(item.primaryTag.title) \(item.text.prefix(24))")
     closeAndReturnToPrevious()
     handoff.sendWhenReady(targetBundleID: targetBundleID, activateTarget: { [weak self] in
       self?.previousApplication?.activate(options: [.activateAllWindows])

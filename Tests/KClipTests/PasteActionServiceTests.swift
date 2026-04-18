@@ -20,10 +20,24 @@ struct PasteActionServiceTests {
     var called = false
     let service = PasteActionService(
       writeText: { _ in called = true },
+      writeImage: { _ in called = true },
       sendPaste: { called = true }
     )
 
     #expect(service.performPaste(text: "") == false)
     #expect(called == false)
+  }
+
+  @Test
+  func writesImageBeforeSendingPaste() throws {
+    var events: [String] = []
+    let service = PasteActionService(
+      writeText: { _ in events.append("text") },
+      writeImage: { _ in events.append("image") },
+      sendPaste: { events.append("paste") }
+    )
+
+    #expect(try service.performPaste(item: ClipboardItem(imageData: samplePNGData())))
+    #expect(events == ["image", "paste"])
   }
 }
