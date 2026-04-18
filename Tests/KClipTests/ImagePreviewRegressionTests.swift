@@ -31,10 +31,11 @@ struct ImagePreviewRegressionTests {
     let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
 
     #expect(summary.contains("scaledToFill()"))
-    #expect(summary.contains("compactThumbnail(image)"))
-    #expect(summary.contains("clipShape(compactImageShape)"))
+    #expect(summary.contains("compactImage(image)"))
+    #expect(summary.contains(".frame(maxHeight: .infinity)"))
+    #expect(summary.contains(".clipped()"))
     #expect(summary.contains("frame(width: 120, height: 46)") == false)
-    #expect(summary.contains(".padding(previewInset)"))
+    #expect(summary.contains("frame(height: 48)") == false)
   }
 
   @Test
@@ -67,8 +68,9 @@ struct ImagePreviewRegressionTests {
   func compactImagePreviewUsesInsetCornerRadiusFormula() throws {
     let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
 
-    #expect(summary.contains("private var compactImageShape"))
-    #expect(summary.contains("RoundedRectangle(cornerRadius: innerPreviewCornerRadius"))
+    #expect(summary.contains("private var compactImageShape") == false)
+    #expect(summary.contains("compact ? 10 : 14"))
+    #expect(summary.contains("RoundedRectangle(cornerRadius: previewCornerRadius"))
     #expect(summary.contains("Capsule(style: .continuous)") == false)
   }
 
