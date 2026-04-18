@@ -5,24 +5,26 @@ struct ColorPaletteSurfaceView: View {
   let compact: Bool
 
   var body: some View {
-    GeometryReader { proxy in
-      HStack(spacing: 0) {
-        ForEach(snippet.samples) { sample in
-          Rectangle()
-            .fill(sample.swiftUIColor)
-            .frame(width: proxy.size.width / CGFloat(snippet.samples.count))
-        }
-      }
-      .clipShape(shape)
-      .overlay(shape.stroke(Color.white.opacity(0.08), lineWidth: 1))
-      .overlay(alignment: .bottomLeading) { surfaceGlow }
+    ZStack {
+      Color.clear
+      paletteStrip.padding(previewInset)
     }
+    .clipShape(outerShape)
+    .overlay(innerShape.stroke(Color.white.opacity(0.10), lineWidth: 1).padding(previewInset))
+    .overlay(alignment: .bottomLeading) { surfaceGlow.padding(previewInset) }
     .compositingGroup()
     .transition(.asymmetric(insertion: .opacity.combined(with: .scale(scale: 0.98)), removal: .opacity))
   }
 
-  private var shape: RoundedRectangle {
-    RoundedRectangle(cornerRadius: compact ? 16 : 18, style: .continuous)
+  private var paletteStrip: some View {
+    GeometryReader { proxy in
+      HStack(spacing: 0) {
+        ForEach(snippet.samples) { sample in
+          Rectangle().fill(sample.swiftUIColor).frame(width: proxy.size.width / CGFloat(snippet.samples.count))
+        }
+      }
+      .clipShape(innerShape)
+    }
   }
 
   private var surfaceGlow: some View {
@@ -31,6 +33,12 @@ struct ColorPaletteSurfaceView: View {
       startPoint: .top,
       endPoint: .bottom
     )
-    .clipShape(shape)
+    .clipShape(innerShape)
   }
+
+  private var outerCornerRadius: CGFloat { compact ? 22 : 24 }
+  private var previewInset: CGFloat { compact ? 8 : 10 }
+  private var innerCornerRadius: CGFloat { outerCornerRadius - previewInset }
+  private var outerShape: RoundedRectangle { RoundedRectangle(cornerRadius: outerCornerRadius, style: .continuous) }
+  private var innerShape: RoundedRectangle { RoundedRectangle(cornerRadius: innerCornerRadius, style: .continuous) }
 }

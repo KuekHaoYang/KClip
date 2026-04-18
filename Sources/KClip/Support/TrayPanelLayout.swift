@@ -6,6 +6,11 @@ enum TrayPanelLayout {
   static let bottomMargin: CGFloat = 24
   static let entryScale: CGFloat = 0.94
   static let entryYOffset: CGFloat = 17.5
+  static let overlayHeadroom: CGFloat = 296
+  static let overlayOverlap: CGFloat = 40
+  static let expandedHeight: CGFloat = preferredSize.height + overlayHeadroom
+  static let trayContentHeight: CGFloat = preferredSize.height - 24
+  static let overlayBottomInset: CGFloat = trayContentHeight - overlayOverlap
 
   static func frame(in visibleFrame: CGRect, panelSize: CGSize = preferredSize) -> CGRect {
     let width = min(panelSize.width, visibleFrame.width - (horizontalMargin * 2))
