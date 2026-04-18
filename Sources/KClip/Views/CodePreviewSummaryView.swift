@@ -35,11 +35,11 @@ struct CodePreviewSummaryView: View {
   }
 
   private var codeText: some View {
-    Text(snippet.body)
+    highlightedText
       .font(.system(size: compact ? 12 : 13, weight: .medium, design: .monospaced))
       .lineSpacing(compact ? 1.5 : 2)
-      .foregroundStyle(Color.white.opacity(0.92))
       .frame(maxWidth: .infinity, alignment: .topLeading)
+      .animation(.easeOut(duration: 0.18), value: snippet.body)
   }
 
   private var languageBadge: some View {
@@ -50,5 +50,25 @@ struct CodePreviewSummaryView: View {
       .padding(.vertical, 5)
       .background(Capsule().fill(Color.white.opacity(0.08)))
       .overlay(Capsule().stroke(Color.white.opacity(0.10), lineWidth: 1))
+  }
+
+  private var highlightedText: Text {
+    CodeHighlight.runs(for: snippet).reduce(Text(""), combine)
+  }
+
+  private func combine(_ partial: Text, _ run: CodeHighlightRun) -> Text {
+    partial + Text(run.text).foregroundColor(color(for: run.role))
+  }
+
+  private func color(for role: CodeHighlightRole) -> Color {
+    switch role {
+    case .plain: Color.white.opacity(0.92)
+    case .keyword: Color(red: 0.50, green: 0.78, blue: 1.00)
+    case .type: Color(red: 0.52, green: 0.90, blue: 0.77)
+    case .string: Color(red: 0.98, green: 0.78, blue: 0.46)
+    case .comment: Color.white.opacity(0.38)
+    case .number: Color(red: 1.00, green: 0.63, blue: 0.43)
+    case .accent: Color(red: 0.72, green: 0.86, blue: 1.00)
+    }
   }
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.6 · 2026-04-18
+
+- Added syntax-colored code rendering so `Rendered` previews no longer show monochrome code blocks.
+- Kept animated code transitions in place while making the colored code surface update through the renderer instead of plain text fallback.
+- Preserved the tighter code preview sizing introduced in `v0.1.5`.
+
 ## v0.1.5 · 2026-04-18
 
 - Fixed SwiftUI snippet detection so copied code with property wrappers, modifier chains, and other non-trivial lines is tagged as `Code` instead of falling back to `General`.
