@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.2 · 2026-04-18
+
+- Removed the redundant in-preview `Image` badge so the media block only shows the actual image content.
+- Added explicit image preview fade-and-scale transitions so image cards keep polished motion while swapping content.
+- Preserved the rounded inset geometry for expanded previews so the visible image surface matches the container padding.
+
 ## v0.1.1 · 2026-04-18
 
 - Added first-class image clipboard support for copied screenshots, photos, and image files.
