@@ -9,11 +9,12 @@ struct ClipPreviewOverlayView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 14) {
       headerRow
-      previewBody
+      previewBody.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     .padding(20)
     .frame(width: 500, height: 246, alignment: .topLeading)
     .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(.regularMaterial))
+    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
     .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Color.white.opacity(0.10), lineWidth: 1))
     .onAppear { linkPreviews.warm([item]) }
   }
