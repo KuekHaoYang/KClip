@@ -1,19 +1,22 @@
+import AppKit
 import Foundation
 
-struct LinkPreviewSnapshot: Equatable, Sendable {
+struct LinkPreviewSnapshot {
   enum Phase: Equatable { case loading, ready, failed }
 
   let url: URL
   let title: String
   let host: String
   let phase: Phase
+  let image: NSImage?
 
-  init(url: URL, title: String? = nil, phase: Phase = .ready) {
+  init(url: URL, title: String? = nil, phase: Phase = .ready, image: NSImage? = nil) {
     let cleanTitle = title?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     self.url = url
     self.host = url.host?.replacingOccurrences(of: "www.", with: "") ?? url.absoluteString
     self.title = cleanTitle.isEmpty ? self.host : cleanTitle
     self.phase = phase
+    self.image = image
   }
 
   static func loading(url: URL) -> LinkPreviewSnapshot {

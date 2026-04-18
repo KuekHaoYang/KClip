@@ -12,8 +12,8 @@ let package = Package(
       name: "KClip",
       linkerSettings: [
         .linkedFramework("AppKit"),
-        .linkedFramework("LinkPresentation"),
         .linkedFramework("SwiftUI"),
+        .linkedFramework("WebKit"),
         .linkedFramework("Quartz"),
       ]
     ),
