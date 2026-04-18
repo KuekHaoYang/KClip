@@ -26,6 +26,7 @@ struct ClipTrayRailView: View {
           }
         }
         .padding(.horizontal, 6)
+        .padding(.vertical, 4)
         .background(contentMetricsReader)
         .animation(.spring(response: 0.30, dampingFraction: 0.84), value: items.map(\.id))
       }
@@ -92,5 +93,5 @@ struct ClipTrayRailView: View {
     }
   }
 
-  private var railHeight: CGFloat { 174 }
+  private var railHeight: CGFloat { 176 }
 }

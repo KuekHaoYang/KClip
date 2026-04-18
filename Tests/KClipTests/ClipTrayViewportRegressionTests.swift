@@ -19,11 +19,14 @@ struct ClipTrayViewportRegressionTests {
   @Test
   func clipTrayViewKeepsEdgeCardsInsetWithoutMaskClipping() throws {
     let source = try railSource()
+    let tray = try traySource()
     #expect(source.contains(".padding(.horizontal, 6)"))
+    #expect(source.contains(".padding(.vertical, 4)"))
     #expect(source.contains(".mask { HorizontalOverflowFadeView(metrics: scrollMetrics) }"))
     #expect(source.contains("ScrollView(.horizontal, showsIndicators: false)"))
     #expect(source.contains(".scrollIndicators(.hidden)"))
     #expect(source.contains(".frame(height: railHeight)"))
+    #expect(tray.contains("VStack(alignment: .leading, spacing: 12)"))
     #expect(source.contains("HiddenHorizontalScrollerView") == false)
   }
 
