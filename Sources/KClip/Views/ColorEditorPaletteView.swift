@@ -6,15 +6,17 @@ struct ColorEditorPaletteView: View {
   let snippet: ColorSnippet
   @State private var selectedIndex = 0
   @State private var pickerColor = Color.white
+  @State private var isSyncingPicker = false
 
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
-      ColorPreviewSummaryView(snippet: snippet, compact: false).frame(height: 148)
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 8) { ForEach(snippet.samples) { chip($0) } }
-      }
+      ColorPreviewSummaryView(snippet: snippet, compact: false).frame(height: 154)
       HStack(spacing: 10) {
-        Text("Palette").font(.system(size: 11, weight: .bold, design: .rounded))
+        Picker("Swatch", selection: $selectedIndex) {
+          ForEach(snippet.samples) { sample in Text(sample.displayCode).tag(sample.id) }
+        }
+        .pickerStyle(.menu)
+        .labelsHidden()
         ColorPicker("", selection: $pickerColor, supportsOpacity: true).labelsHidden()
         Text(selectedSample.displayCode)
           .font(.system(size: 11, weight: .bold, design: .monospaced))
@@ -23,7 +25,7 @@ struct ColorEditorPaletteView: View {
     }
     .onAppear(perform: syncPicker)
     .onChange(of: selectedIndex) { _, _ in syncPicker() }
-    .onChange(of: pickerColor) { _, value in applyColor(value) }
+    .onChange(of: pickerColor) { _, value in handlePickerChange(value) }
     .onChange(of: snippet.samples.map(\.displayCode).joined(separator: ",")) { _, _ in
       clampSelection()
       syncPicker()
@@ -35,31 +37,24 @@ struct ColorEditorPaletteView: View {
   private var currentIndex: Int { min(selectedIndex, max(snippet.samples.count - 1, 0)) }
   private var selectedSample: ColorSample { snippet.samples[currentIndex] }
 
-  private func chip(_ sample: ColorSample) -> some View {
-    let isSelected = sample.id == selectedSample.id
-    return Button { selectedIndex = sample.id } label: {
-      HStack(spacing: 8) {
-        Circle().fill(sample.swiftUIColor).frame(width: 14, height: 14)
-        Text(sample.displayCode).lineLimit(1)
-      }
-      .font(.system(size: 10, weight: .bold, design: .monospaced))
-      .padding(.horizontal, 10)
-      .padding(.vertical, 7)
-      .background(Capsule().fill(Color.white.opacity(isSelected ? 0.16 : 0.08)))
-      .overlay(Capsule().stroke(Color.white.opacity(isSelected ? 0.18 : 0.10), lineWidth: 1))
+  private func handlePickerChange(_ color: Color) {
+    if isSyncingPicker {
+      isSyncingPicker = false
+      return
     }
-    .buttonStyle(.plain)
+    applyColor(color)
   }
 
   private func applyColor(_ color: Color) {
     guard let resolved = NSColor(color).usingColorSpace(.sRGB) else { return }
-    let code = ColorSample.code(
+    guard let updated = snippet.updatingSample(
+      at: currentIndex,
       red: resolved.redComponent,
       green: resolved.greenComponent,
       blue: resolved.blueComponent,
       alpha: resolved.alphaComponent
-    )
-    text = snippet.replacingSample(at: currentIndex, with: code)
+    ) else { return }
+    text = updated
   }
 
   private func clampSelection() {
@@ -68,6 +63,7 @@ struct ColorEditorPaletteView: View {
 
   private func syncPicker() {
     clampSelection()
+    isSyncingPicker = true
     pickerColor = selectedSample.swiftUIColor
   }
 }
