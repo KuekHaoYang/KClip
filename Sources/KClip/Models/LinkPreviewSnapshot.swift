@@ -9,6 +9,7 @@ struct LinkPreviewSnapshot {
   let host: String
   let phase: Phase
   let image: NSImage?
+  var displayImage: NSImage? { LinkPreviewImageAnalyzer.displayImage(from: image) }
 
   init(url: URL, title: String? = nil, phase: Phase = .ready, image: NSImage? = nil) {
     let cleanTitle = title?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""

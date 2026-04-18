@@ -18,8 +18,9 @@ struct LinkPreviewSummaryView: View {
   private var mediaBlock: some View {
     ZStack(alignment: .topLeading) {
       backgroundBlock
-      LinearGradient(colors: [.clear, .black.opacity(compact ? 0.12 : 0.22)], startPoint: .top, endPoint: .bottom)
-      badgeRow.padding(compact ? 10 : 12)
+      LinearGradient(colors: [.black.opacity(0.02), .black.opacity(compact ? 0.18 : 0.30)], startPoint: .top, endPoint: .bottom)
+      chromeBar
+      badgeRow.padding(compact ? 11 : 14)
     }
     .clipShape(RoundedRectangle(cornerRadius: compact ? 18 : 20, style: .continuous))
     .overlay(RoundedRectangle(cornerRadius: compact ? 18 : 20, style: .continuous).stroke(Color.white.opacity(0.08), lineWidth: 1))
@@ -49,21 +50,38 @@ struct LinkPreviewSummaryView: View {
     .foregroundStyle(.white.opacity(0.92))
   }
 
+  private var chromeBar: some View {
+    VStack(spacing: 0) {
+      HStack(spacing: 5) {
+        ForEach([0.30, 0.24, 0.18], id: \.self) { opacity in
+          Circle().fill(Color.white.opacity(opacity)).frame(width: compact ? 5 : 6, height: compact ? 5 : 6)
+        }
+        Spacer(minLength: 0)
+      }
+      .padding(.horizontal, compact ? 10 : 12)
+      .padding(.top, compact ? 8 : 10)
+      Spacer(minLength: 0)
+    }
+  }
+
   @ViewBuilder
   private var backgroundBlock: some View {
-    if let image = preview.image {
+    if let image = preview.displayImage {
       Image(nsImage: image)
         .resizable()
         .scaledToFill()
-        .saturation(0.88)
-        .brightness(-0.04)
+        .saturation(0.82)
+        .brightness(-0.08)
     } else {
-      LinearGradient(colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)], startPoint: .topLeading, endPoint: .bottomTrailing)
-      Text(preview.host.uppercased())
-        .font(.system(size: compact ? 15 : 20, weight: .black, design: .rounded))
-        .foregroundStyle(Color.white.opacity(0.14))
-        .padding(compact ? 10 : 14)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+      LinearGradient(colors: [Color.white.opacity(0.12), Color.white.opacity(0.03)], startPoint: .topLeading, endPoint: .bottomTrailing)
+      VStack(alignment: .leading, spacing: compact ? 6 : 8) {
+        Text(preview.host.uppercased())
+          .font(.system(size: compact ? 13 : 18, weight: .black, design: .rounded))
+          .foregroundStyle(Color.white.opacity(0.18))
+        Capsule().fill(Color.white.opacity(0.08)).frame(width: compact ? 44 : 60, height: compact ? 6 : 8)
+      }
+      .padding(compact ? 12 : 16)
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
     }
   }
 }

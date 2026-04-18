@@ -42,6 +42,8 @@ struct TrayCardRegressionTests {
     #expect(source.contains("detailsBlock"))
     #expect(source.contains(".frame(height: mediaHeight)"))
     #expect(source.contains(".lineLimit(compact ? 2 : 3)"))
+    #expect(source.contains("preview.displayImage"))
+    #expect(source.contains("chromeBar"))
   }
 
   private var rootURL: URL {
