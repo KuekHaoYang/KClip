@@ -17,7 +17,7 @@ Extend KClip from text-only history into mixed text and image history without br
 
 - Tray cards keep the existing compact card shell.
 - Image cards use a dedicated preview block instead of dumping metadata text into the card body.
-- Compact image cards use a full-width pill preview so the image itself does not read as a square slab.
+- Compact image cards use a bounded rounded preview where the inner radius follows `outer radius - padding`.
 - Image preview blocks do not repeat the `Image` label inside the media surface when the outer card already labels the clip.
 - The preview stage uses a larger bounded block than the tray card, but still stays inside the tray limits.
 - Motion stays restrained: existing tray springs remain, and image blocks fade/scale in subtly through explicit media transitions.
@@ -61,5 +61,5 @@ Rules:
 
 - `swift test`
 - `./script/build_and_run.sh --verify`
-- `./script/make_release.sh v0.1.2`
+- `./script/make_release.sh v0.1.3`
 - manual smoke check: copy screenshot, copy image file in Finder, paste both from KClip

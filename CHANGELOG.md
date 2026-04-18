@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.3 · 2026-04-18
+
+- Corrected the compact image preview geometry so the inner preview radius now follows `inner = outer - padding`.
+- Preserved the explicit fade-and-scale image transitions while removing the remaining compact-shape mismatch.
+- Kept the image preview chrome free of redundant in-surface labels.
+
 ## v0.1.2 · 2026-04-18
 
 - Removed the redundant in-preview `Image` badge so the media block only shows the actual image content.

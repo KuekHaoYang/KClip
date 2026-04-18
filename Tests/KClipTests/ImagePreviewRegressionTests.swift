@@ -32,9 +32,9 @@ struct ImagePreviewRegressionTests {
 
     #expect(summary.contains("scaledToFill()"))
     #expect(summary.contains("compactThumbnail(image)"))
-    #expect(summary.contains("clipShape(Capsule(style: .continuous))"))
+    #expect(summary.contains("clipShape(compactImageShape)"))
     #expect(summary.contains("frame(width: 120, height: 46)") == false)
-    #expect(summary.contains(".padding(10)"))
+    #expect(summary.contains(".padding(previewInset)"))
   }
 
   @Test
@@ -57,10 +57,19 @@ struct ImagePreviewRegressionTests {
   func expandedImagePreviewUsesInsetCornerRadiusFormula() throws {
     let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
 
-    #expect(summary.contains("expandedImageCornerRadius"))
+    #expect(summary.contains("innerPreviewCornerRadius"))
     #expect(summary.contains("previewCornerRadius - previewInset"))
     #expect(summary.contains(".clipShape(expandedImageShape)"))
     #expect(summary.contains(".padding(previewInset)"))
+  }
+
+  @Test
+  func compactImagePreviewUsesInsetCornerRadiusFormula() throws {
+    let summary = try source("Sources/KClip/Views/ImagePreviewSummaryView.swift")
+
+    #expect(summary.contains("private var compactImageShape"))
+    #expect(summary.contains("RoundedRectangle(cornerRadius: innerPreviewCornerRadius"))
+    #expect(summary.contains("Capsule(style: .continuous)") == false)
   }
 
   private func source(_ path: String) throws -> String {
