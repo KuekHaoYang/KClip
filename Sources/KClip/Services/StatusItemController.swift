@@ -24,10 +24,8 @@ final class StatusItemController: NSObject {
 
   private func configureButton() {
     guard let button = statusItem.button else { return }
-    button.image = NSImage(
-      systemSymbolName: "paperclip.circle.fill",
-      accessibilityDescription: "KClip"
-    )
+    button.image = MenuBarIcon.makeImage()
+    button.imageScaling = .scaleProportionallyDown
     button.target = self
     button.action = #selector(handleStatusItemClick)
     button.sendAction(on: [.leftMouseDown, .rightMouseDown])
