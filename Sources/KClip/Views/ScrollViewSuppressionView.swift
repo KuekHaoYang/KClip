@@ -2,18 +2,17 @@ import AppKit
 import SwiftUI
 
 struct ScrollViewSuppressionView: NSViewRepresentable {
-  final class Coordinator { weak var scrollView: NSScrollView? }
+  final class Coordinator { let scrollViews = NSHashTable<NSScrollView>.weakObjects() }
 
   func makeCoordinator() -> Coordinator { Coordinator() }
   func makeNSView(context: Context) -> NSView { NSView(frame: .zero) }
 
   func updateNSView(_ nsView: NSView, context: Context) {
-    if isSuppressed(context.coordinator.scrollView) { return }
     DispatchQueue.main.async {
-      if isSuppressed(context.coordinator.scrollView) { return }
-      guard let scrollView = firstScrollView(in: rootView(for: nsView)) else { return }
-      context.coordinator.scrollView = scrollView
-      suppress(scrollView)
+      allScrollViews(in: rootView(for: nsView)).forEach { scrollView in
+        context.coordinator.scrollViews.add(scrollView)
+        if isSuppressed(scrollView) == false { suppress(scrollView) }
+      }
     }
   }
 
@@ -23,12 +22,9 @@ struct ScrollViewSuppressionView: NSViewRepresentable {
     return current
   }
 
-  private func firstScrollView(in view: NSView) -> NSScrollView? {
-    if let scrollView = view as? NSScrollView { return scrollView }
-    for subview in view.subviews {
-      if let scrollView = firstScrollView(in: subview) { return scrollView }
-    }
-    return nil
+  private func allScrollViews(in view: NSView) -> [NSScrollView] {
+    let direct = (view as? NSScrollView).map { [$0] } ?? []
+    return direct + view.subviews.flatMap(allScrollViews)
   }
 
   private func isSuppressed(_ scrollView: NSScrollView?) -> Bool {

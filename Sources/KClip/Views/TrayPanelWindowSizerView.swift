@@ -12,9 +12,8 @@ struct TrayPanelWindowSizerView: NSViewRepresentable {
   func updateNSView(_ view: NSView, context: Context) {
     DispatchQueue.main.async {
       guard let window = view.window else { return }
-      guard abs(window.frame.width - size.width) > 0.5 || abs(window.frame.height - size.height) > 0.5 else { return }
-      var frame = window.frame
-      frame.size = size
+      let frame = targetFrame(for: window)
+      guard abs(window.frame.width - frame.width) > 0.5 || abs(window.frame.height - frame.height) > 0.5 else { return }
       if animated {
         NSAnimationContext.runAnimationGroup { context in
           context.duration = 0.18
@@ -24,5 +23,13 @@ struct TrayPanelWindowSizerView: NSViewRepresentable {
         window.setFrame(frame, display: true)
       }
     }
+  }
+
+  private func targetFrame(for window: NSWindow) -> CGRect {
+    let visibleFrame = window.screen?.visibleFrame ?? NSScreen.main?.visibleFrame ?? window.frame
+    var frame = window.frame
+    frame.size.width = size.width
+    frame.size.height = min(size.height, visibleFrame.maxY - frame.minY)
+    return frame
   }
 }

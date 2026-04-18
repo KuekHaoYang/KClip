@@ -21,13 +21,19 @@ struct TrayPanelMotionRegressionTests {
     let rootSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayPanelRootView.swift"), encoding: .utf8)
     let editorSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayEditorStageView.swift"), encoding: .utf8)
     let previewSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayPreviewStageView.swift"), encoding: .utf8)
+    let sizerSource = try String(contentsOf: sourceURL("Sources/KClip/Views/TrayPanelWindowSizerView.swift"), encoding: .utf8)
+    let overlaySource = try String(contentsOf: sourceURL("Sources/KClip/Views/ClipEditorOverlayView.swift"), encoding: .utf8)
 
     #expect(rootSource.contains("ZStack(alignment: .bottom)"))
     #expect(rootSource.contains("TrayPanelWindowSizerView"))
-    #expect(rootSource.contains("TrayPanelLayout.expandedHeight"))
+    #expect(rootSource.contains("TrayPanelLayout.editorExpandedHeight"))
+    #expect(rootSource.contains("TrayPanelLayout.previewExpandedHeight"))
     #expect(rootSource.contains("TrayPanelLayout.trayContentHeight"))
     #expect(editorSource.contains("TrayPanelLayout.overlayBottomInset"))
     #expect(previewSource.contains("TrayPanelLayout.overlayBottomInset"))
+    #expect(sizerSource.contains("visibleFrame"))
+    #expect(sizerSource.contains("min(size.height"))
+    #expect(overlaySource.contains(".scrollIndicators(.hidden)"))
   }
 
   @Test

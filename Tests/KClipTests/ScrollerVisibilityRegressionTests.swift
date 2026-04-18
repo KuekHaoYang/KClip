@@ -21,8 +21,9 @@ struct ScrollerVisibilityRegressionTests {
     let source = try String(contentsOf: sourceURL("Sources/KClip/Views/ScrollViewSuppressionView.swift"), encoding: .utf8)
 
     #expect(source.contains("makeCoordinator()"))
-    #expect(source.contains("context.coordinator.scrollView"))
-    #expect(source.contains("context.coordinator.scrollView = scrollView"))
+    #expect(source.contains("NSHashTable<NSScrollView>.weakObjects()"))
+    #expect(source.contains("allScrollViews(in:"))
+    #expect(source.contains("context.coordinator.scrollViews.add(scrollView)"))
   }
 
   private func sourceURL(_ path: String) -> URL {
