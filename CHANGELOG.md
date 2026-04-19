@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.16 · 2026-04-19
+
+- Restored the compact tray-sized preview panel so text preview no longer expands into a large empty overlay stage.
+- Kept editor mode on the taller expanded panel, which preserves the extra headroom needed for edit flows without reintroducing preview bloat.
+- Added a dedicated regression test that locks preview panel height to the resting tray size.
+
 ## v0.1.15 · 2026-04-18
 
 - Removed the extra nested compact image slab so tray image clips now render as a single card surface followed directly by the image itself.

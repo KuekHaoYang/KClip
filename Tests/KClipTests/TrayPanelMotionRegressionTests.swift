@@ -27,7 +27,7 @@ struct TrayPanelMotionRegressionTests {
     #expect(rootSource.contains("ZStack(alignment: .bottom)"))
     #expect(rootSource.contains("TrayPanelWindowSizerView"))
     #expect(rootSource.contains("TrayPanelLayout.editorExpandedHeight"))
-    #expect(rootSource.contains("TrayPanelLayout.previewExpandedHeight"))
+    #expect(rootSource.contains("if interaction.previewItem != nil") == false)
     #expect(rootSource.contains("TrayPanelLayout.trayContentHeight"))
     #expect(editorSource.contains("TrayPanelLayout.overlayBottomInset"))
     #expect(previewSource.contains("ZStack {"))
