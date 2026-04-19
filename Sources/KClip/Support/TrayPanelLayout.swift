@@ -9,9 +9,7 @@ enum TrayPanelLayout {
   static let bottomMargin: CGFloat = 24
   static let entryScale: CGFloat = 0.94
   static let entryYOffset: CGFloat = 17.5
-  static let overlayHeadroom: CGFloat = 296
   static let overlayOverlap: CGFloat = 40
-  static let previewExpandedHeight: CGFloat = preferredSize.height + overlayHeadroom
   static let editorExpandedHeight: CGFloat = preferredSize.height + 332
   static let expandedHeight: CGFloat = editorExpandedHeight
   static let overlayBottomInset: CGFloat = trayContentHeight - overlayOverlap

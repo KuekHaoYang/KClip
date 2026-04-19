@@ -69,7 +69,6 @@ struct TrayPanelRootView: View {
   var overlayActive: Bool { editingItem != nil || interaction.previewItem != nil }
   var panelHeight: CGFloat {
     if editingItem != nil { return TrayPanelLayout.editorExpandedHeight }
-    if interaction.previewItem != nil { return TrayPanelLayout.previewExpandedHeight }
     return TrayPanelLayout.preferredSize.height
   }
   var panelSize: CGSize { CGSize(width: panelWidth, height: panelHeight) }
